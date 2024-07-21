@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Taskagotchi" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name="android:windowBackground">@drawable/welcome_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.Taskagotchi</item>
+    </style>
+</resources>
