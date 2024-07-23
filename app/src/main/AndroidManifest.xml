@@ -13,11 +13,14 @@
         android:theme="@style/Theme.Taskagotchi"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false"
-            android:label="Home"/>
+            android:label="Home" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.App.SplashScreen">
