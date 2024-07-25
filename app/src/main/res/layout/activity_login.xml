@@ -87,6 +87,7 @@
         android:id="@+id/login_pass_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Password"
         android:layout_marginLeft="75dp"
         android:layout_marginRight="75dp"
         android:background="@drawable/rounded_corner"
@@ -94,7 +95,7 @@
         android:ems="10"
         android:fontFamily="@font/lexend_light"
         android:gravity="center_horizontal"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="3dp"
         android:text="Enter Password"
         android:textSize="12sp" />
@@ -117,7 +118,7 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/sign_up_now"
+            android:id="@+id/signUpNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

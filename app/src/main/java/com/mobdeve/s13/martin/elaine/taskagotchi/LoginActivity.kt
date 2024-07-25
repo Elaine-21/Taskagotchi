@@ -1,16 +1,28 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import kotlin.math.sign
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityLoginBinding
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
 
 class LoginActivity : ComponentActivity() {
+
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,8 +30,57 @@ class LoginActivity : ComponentActivity() {
         Thread.sleep(3000)
         installSplashScreen()
 
-        setContentView(R.layout.activity_login)
+        val viewBinding: ActivityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
+        applyFont()
+
+
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseReference = firebaseDatabase.reference.child("users")
+
+        viewBinding.signInBtn.setOnClickListener {
+            val loginUsername = viewBinding.loginUsernameInput.text.toString()
+            val loginPass = viewBinding.loginPassInput.text.toString()
+
+            if(loginUsername.isNotEmpty() && loginPass.isNotEmpty()){
+                loginUser(loginUsername, loginPass)
+            }else{
+                Toast.makeText(this@LoginActivity, "All fields are mandatory", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewBinding.signUpNow.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun loginUser(username: String, password: String){
+        databaseReference.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(userSnapshot in snapshot.children){
+                        val userData = userSnapshot.getValue(UserData::class.java)
+                        if(userData != null && userData.password == password){
+                            Toast.makeText(this@LoginActivity, "User successfully logged in", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                            finish()
+                            return
+                        }
+
+                    }
+                }
+                Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@LoginActivity, "Database Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+    private fun applyFont(){
         // Getting all the preloaded font styles
         val luckiest_guy: Typeface? = ResourcesCompat.getFont(this, R.font.luckiest_guy)
         val lexend: Typeface? = ResourcesCompat.getFont(this, R.font.lexend)
@@ -42,7 +103,7 @@ class LoginActivity : ComponentActivity() {
         // Applying lexend_light font to text views
         val login_username_input: EditText = findViewById(R.id.login_username_input)
         val login_pass_input: EditText = findViewById(R.id.login_pass_input)
-        val sign_up_tv: TextView = findViewById(R.id.sign_up_now)
+        val sign_up_tv: TextView = findViewById(R.id.signUpNow)
         login_username_input.typeface = lexend_light
         login_pass_input.typeface = lexend_light
         sign_up_tv.typeface = lexend_light
