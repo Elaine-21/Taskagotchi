@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "955268147986",
+    "project_id": "taskagotchi-aa9c2",
+    "storage_bucket": "taskagotchi-aa9c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955268147986:android:b8d8074c806dba4081a1cb",
+        "android_client_info": {
+          "package_name": "com.mobdeve.s13.martin.elaine.taskagotchi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS0ieokSb6QfibVsxJ9Lmli4pNk-rFJQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
