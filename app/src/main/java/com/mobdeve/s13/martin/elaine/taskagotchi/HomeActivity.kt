@@ -1,11 +1,13 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,29 +22,30 @@ class HomeActivity : AppCompatActivity() {
 
         val viewBinding: ActivityHomeBinding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        val button1: Button = findViewById(R.id.encyclopediaBtn)
 
-        setButtonBackground(button1, R.drawable.encyclopedia_icon)
+        // Retrieve the TextView from the layout
+        val welcomeTextView: TextView = findViewById(R.id.textView)
 
+        // Retrieve data from the Intent
+        val username = intent.getStringExtra("username")
+        val userId = intent.getStringExtra("userId")
 
+        // Create a welcome message with the retrieved data
+        val welcomeMessage = "WELCOME $username\nUser ID: $userId"
 
-    }
+        // Set the welcome message to the TextView
+        welcomeTextView.text = welcomeMessage
 
-    private fun setButtonBackground(button: Button, imageResId: Int) {
-        val borderDrawable = ContextCompat.getDrawable(this, R.drawable.circle_border)
-        val imageDrawable = ContextCompat.getDrawable(this, imageResId)
-        val resizedImageDrawable = resizeDrawable(imageDrawable!!, 10, 10) // Adjust the size as needed
-        val layers = arrayOf<Drawable>(borderDrawable!!, resizedImageDrawable)
-        val layerDrawable = LayerDrawable(layers)
-        button.background = layerDrawable
-    }
+        viewBinding.addCharacterBtn.setOnClickListener{
+            val intent = Intent(this@HomeActivity, CharacterCreation::class.java)
 
-    private fun resizeDrawable(drawable: Drawable, width: Int, height: Int): Drawable {
-        if (drawable is BitmapDrawable) {
-            val bitmap = drawable.bitmap
-            val resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false)
-            return BitmapDrawable(resources, resizedBitmap)
+            intent.putExtra("username", username)
+            intent.putExtra("userId", userId)
+            startActivity(intent)
+            finish()
         }
-        return drawable
     }
+
+
+
 }

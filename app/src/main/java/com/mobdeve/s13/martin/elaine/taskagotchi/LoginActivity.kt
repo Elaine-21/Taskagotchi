@@ -63,8 +63,11 @@ class LoginActivity : ComponentActivity() {
                     for(userSnapshot in snapshot.children){
                         val userData = userSnapshot.getValue(UserData::class.java)
                         if(userData != null && userData.password == password){
-                            Toast.makeText(this@LoginActivity, "User successfully logged in", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                            // Put the username and password into the Intent
+                            intent.putExtra("username", username)
+                            intent.putExtra("userId", userData.id)
+                            startActivity(intent)
                             finish()
                             return
                         }

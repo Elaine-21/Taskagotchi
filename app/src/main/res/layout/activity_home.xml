@@ -25,43 +25,44 @@
         android:layout_height="match_parent"
         android:background="@drawable/dashboard_background">
 
-        <Button
-            android:id="@+id/encyclopediaBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="47dp"
+        <ImageButton
+            android:id="@+id/encyclopedia_btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="45dp"
             android:background="@drawable/circle_border"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addCharacterBtn"
+            app:layout_constraintEnd_toStartOf="@+id/addCharacter_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.106" />
+            app:layout_constraintVertical_bias="0.058"
+            app:srcCompat="@drawable/encyclopedia_icon" />
 
-        <Button
-            android:id="@+id/addCharacterBtn"
+        <ImageButton
+            android:id="@+id/addCharacter_btn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/circle_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.428" />
+            app:srcCompat="@drawable/add_character_icon" />
 
-        <Button
-            android:id="@+id/signoutBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
+        <ImageButton
+            android:id="@+id/signout_btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/circle_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/addCharacterBtn"
+            app:layout_constraintStart_toEndOf="@+id/addCharacter_btn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.106" />
+            app:layout_constraintVertical_bias="0.088"
+            app:srcCompat="@drawable/baseline_logout_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

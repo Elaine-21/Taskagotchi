@@ -4,6 +4,6 @@ data class UserData(
     val id: String? = null,
     val username: String? = null,
     val password: String? = null,
-    var taskagotchiIdList: List<String>? = null,
+    var charactersIdList: List<String>? = null,
     var unlockedIDChar: List<String>? = null
 )
