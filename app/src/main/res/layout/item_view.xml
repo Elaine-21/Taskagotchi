@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tamagotchiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/tamagotchiStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_below="@id/tamagotchiName"
+        android:text="Status" />
+
+    <TextView
+        android:id="@+id/tamagotchiStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_below="@id/tamagotchiStatus"
+        android:text="Streak" />
+
+    <TextView
+        android:id="@+id/tamagotchiEnergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_below="@id/tamagotchiStreak"
+        android:text="Energy" />
+
+</RelativeLayout>

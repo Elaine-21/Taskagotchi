@@ -18,7 +18,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="662dp" />
+        android:layout_height="662dp"
+        android:id="@+id/homepage_recyclerview"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
