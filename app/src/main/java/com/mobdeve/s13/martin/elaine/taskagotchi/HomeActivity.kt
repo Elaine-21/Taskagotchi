@@ -11,10 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobdeve.s13.martin.elaine.taskagotchi.adapter.HomeAdapter
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityHomeBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityRegisterBinding
 
 class HomeActivity : AppCompatActivity() {
+//    private lateinit var dbref : DatabaseReference
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,7 +29,13 @@ class HomeActivity : AppCompatActivity() {
 
         setButtonBackground(button1, R.drawable.encyclopedia_icon)
 
-
+        //recyclerview part
+//        viewBinding.homeRecyclerView.adapter = HomeAdapter(DataGenerator.loadData())
+//
+//        val linearLayoutManager = LinearLayoutManager(this)
+//        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+//
+//        viewBinding.homeRecyclerView.layoutManager = linearLayoutManager
 
     }
 
