@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tasks_tv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#96C3EB"
+    tools:context=".TaskCreationActivity">
+
+    <LinearLayout
+        android:layout_width="331dp"
+        android:layout_height="635dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="#165A97"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/task_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:fontFamily="@font/lexend"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Tasks:"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/task1_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/task2_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/task3_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/task4_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/task5_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/task6_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/addTask_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/circle_border"
+                android:backgroundTint="#165A97"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.988"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.985"
+                app:srcCompat="@drawable/add_task_icon" />
+
+            <Button
+                android:id="@+id/addTaskDone_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#197CD3"
+                android:fontFamily="@font/lexend"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:layout_editor_absoluteX="121dp"
+                tools:layout_editor_absoluteY="273dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

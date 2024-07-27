@@ -30,8 +30,6 @@ class CharacterCreation : AppCompatActivity() {
 
     private var selectedGender: String = "male"
     private var selectedColor: String = "blue"
-    private var charDifficulty: String? = null
-    private var charURLPic: String? = null
     private var id: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +56,10 @@ class CharacterCreation : AppCompatActivity() {
             var charURLPic = "baby_${selectedColor}_${selectedGender}"
 
 
-            // Logging the values to check if they are correct
-            Log.d("CharacterCreation", "Username: $charUsername")
-            Log.d("CharacterCreation", "Difficulty: $charDifficulty")
-            Log.d("CharacterCreation", "Character Image: $charURLPic")
+//             Logging the values to check if they are correct
+//            Log.d("CharacterCreation", "Username: $charUsername")
+//            Log.d("CharacterCreation", "Difficulty: $charDifficulty")
+//            Log.d("CharacterCreation", "Character Image: $charURLPic")
 
 
             if(charUsername != "Character Username" && charDifficulty != null && userId != null && username != null){
@@ -101,10 +99,10 @@ class CharacterCreation : AppCompatActivity() {
                 taskaCharacterReference.child(id!!).setValue(taskagotchiData)
                 Toast.makeText(this@CharacterCreation, "Character created successfully", Toast.LENGTH_SHORT).show()
                 addChartoList(userId)
-                val intent = Intent(this@CharacterCreation, HomeActivity::class.java)
+                val intent = Intent(this@CharacterCreation, TaskCreationActivity::class.java)
                 // Put the username and password into the Intent
-                intent.putExtra("username", username)
                 intent.putExtra("userId", userId)
+                intent.putExtra("charId", id)
                 startActivity(intent)
                 finish()
             }

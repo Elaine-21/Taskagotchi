@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="319dp"
+    android:layout_height="425sp"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="#A7D0F3">
+
+    <ImageView
+        android:id="@+id/exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/exit_icon" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exit_btn">
+
+        <EditText
+            android:id="@+id/task_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:fontFamily="@font/lexend"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Task Title"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/task_description_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:fontFamily="@font/lexend"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Task Description"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/frequency_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="159dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <RadioButton
+            android:id="@+id/everyday_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Everyday" />
+
+        <RadioButton
+            android:id="@+id/once_a_week_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Once a Week" />
+
+        <RadioButton
+            android:id="@+id/every_other_day_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Every Other Day" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/add_task_btn"
+        android:layout_width="104dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="#197CD3"
+        android:fontFamily="@font/lexend"
+        android:text="Add Task"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frequency_rg" />
+</androidx.constraintlayout.widget.ConstraintLayout>
