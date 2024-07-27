@@ -3,6 +3,7 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityTaskCreationBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterDifficulty
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskagotchiData
 import kotlin.math.log
 
 class TaskCreationActivity : AppCompatActivity() {
@@ -34,6 +37,30 @@ class TaskCreationActivity : AppCompatActivity() {
     private var charName:String? = null
     private var taskQuantity: Int = 0
 
+
+    interface CharacterDataCallback {
+        fun onDataFetched(charName: String?, difficulty: String?)
+    }
+
+    private fun getCharacter(charId: String?, callback: CharacterDataCallback) {
+        taskaCharacterReference.orderByChild("id").equalTo(charId).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (child in snapshot.children) {
+                        val charName1 = child.child("name").getValue(String::class.java)
+                        val difficulty1 = child.child("difficulty").getValue(String::class.java)
+
+                        callback.onDataFetched(charName1, difficulty1)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@TaskCreationActivity, "Database Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewBinding: ActivityTaskCreationBinding = ActivityTaskCreationBinding.inflate(layoutInflater)
@@ -50,15 +77,23 @@ class TaskCreationActivity : AppCompatActivity() {
         val charId = intent.getStringExtra("charId")
 
 
-        getCharacter(charId)
-        //
-        getTaskQuantity(difficulty)
 
-        Log.d("TaskCreation", "charName outside: ${charName} difficulty outside: ${difficulty}")
+        //
+        getCharacter(charId, object : CharacterDataCallback {
+            override fun onDataFetched(charName: String?, difficulty: String?) {
+                this@TaskCreationActivity.charName = charName
+                this@TaskCreationActivity.difficulty = difficulty
+
+                getTaskQuantity(difficulty)
+                Log.d("TaskCreation", "charName after fetch: ${charName} difficulty after fetch: ${difficulty}")
+            }
+        })
+
 
         viewBinding.addTaskBtn.setOnClickListener{
             if(taskAdded <= taskQuantity){
-                showAddTaskDialog(taskQuantity)
+                showAddTaskDialog(taskQuantity, charId)
+                Log.d("TaskCreation", "Task Added (Outside): ${taskAdded}")
             }else{
                 Toast.makeText(this@TaskCreationActivity, "Task full", Toast.LENGTH_SHORT).show()
             }
@@ -67,35 +102,34 @@ class TaskCreationActivity : AppCompatActivity() {
             if(taskAdded == taskQuantity){
                 Toast.makeText(this@TaskCreationActivity, "Tasks added", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(this@TaskCreationActivity, "Please complete task quantity: ${taskQuantity} charName ${charName}", Toast.LENGTH_SHORT).show()
-                Log.d("TaskCreation", "charName ${charName}")
+                Toast.makeText(this@TaskCreationActivity, "Please complete task quantity: ${taskQuantity}", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
-    private fun saveTasks(){
 
-    }
-
-
-    private fun getCharacter(charId: String?) {
+    private fun saveTasks(charId: String?, title: String, description: String, frequency: String) {
         taskaCharacterReference.orderByChild("id").equalTo(charId).addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     for (child in snapshot.children) {
-                        val charName1 = child.child("name").getValue(String::class.java)
-                        val difficulty1 = child.child("difficulty").getValue(String::class.java)
+                        val characterDetails = child.getValue(TaskagotchiData::class.java)
+                        if (characterDetails != null) {
+                            val id = taskDatabaseReference.push().key
+                            val task = TaskData(id, title, description, frequency)
+                            val tasks = characterDetails.tasks?.toMutableList() ?: mutableListOf()
+                            tasks.add(task)
+                            characterDetails.tasks = tasks
 
-
-                        Log.d("TaskCreation", "charName1 ${charName1} difficulty1 ${difficulty1}")
-
-                        charName = charName1
-                        difficulty = difficulty1
-
-                        Log.d("TaskCreation", "charName inside: ${charName} difficulty inside: ${difficulty}")
-
-
+                            taskaCharacterReference.child(charId!!).setValue(characterDetails)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this@TaskCreationActivity, "Task saved successfully", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(this@TaskCreationActivity, "Failed to save task", Toast.LENGTH_SHORT).show()
+                                }
+                        }
                     }
                 }
             }
@@ -103,11 +137,10 @@ class TaskCreationActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@TaskCreationActivity, "Database Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
-
         })
-
     }
 
+    //gets the number of task needed for the character difficulty
     private fun getTaskQuantity(difficulty: String?){
 
         if(difficulty == "BEGINNER"){
@@ -120,6 +153,7 @@ class TaskCreationActivity : AppCompatActivity() {
 
     }
 
+    //this shows the added task on the list
     private fun showAddedTask(){
         var task: TextView = findViewById(R.id.task1_tv)
         if(taskAdded == 1){
@@ -139,14 +173,16 @@ class TaskCreationActivity : AppCompatActivity() {
         task.setText("Task ${taskAdded} - ${frequency}\n${taskDescription}")
 
     }
-    private fun showAddTaskDialog(taskQuantity: Int) {
+
+    //creates a pop up for the task information
+    private fun showAddTaskDialog(taskQuantity: Int, charId: String?) {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_task)
 
         //set size
         dialog.window?.setLayout(
-            500,
-            700
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
         val exitBtn = dialog.findViewById<ImageView>(R.id.exit_btn)
@@ -175,10 +211,13 @@ class TaskCreationActivity : AppCompatActivity() {
             Log.d("TaskCreation", "frequency: $frequency")
             Log.d("TaskCreation", "TaskQuantity: $taskQuantity")
 
+
             if(frequency != "" && taskTitle != "" && taskDescription != ""){
                 Toast.makeText(this@TaskCreationActivity, "All fields complete", Toast.LENGTH_SHORT).show()
-                showAddedTask()
                 taskAdded += 1
+                Log.d("TaskCreation", "Task Added: ${taskAdded}")
+                showAddedTask()
+//                saveTasks(charId, taskTitle, taskDescription, frequency)
                 dialog.dismiss()
             }else if (taskTitle == ""){
                 Toast.makeText(this@TaskCreationActivity, "Please enter task title", Toast.LENGTH_SHORT).show()

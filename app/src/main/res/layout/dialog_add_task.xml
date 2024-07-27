@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#000000"
             android:fontFamily="@font/lexend"
-            android:gravity="center_horizontal|center_vertical" />
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/textView8"
@@ -49,7 +50,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#000000"
             android:fontFamily="@font/lexend"
-            android:gravity="center_horizontal|center_vertical" />
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/textView9"
@@ -79,21 +81,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend"
-            android:text="Everyday" />
+            android:text="Everyday"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/once_a_week_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend"
-            android:text="Once a Week" />
+            android:text="Once a Week"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/every_other_day_rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend"
-            android:text="Every Other Day" />
+            android:text="Every Other Day"
+            android:textColor="#000000" />
     </RadioGroup>
 
     <Button

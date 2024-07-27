@@ -33,6 +33,7 @@
             android:id="@+id/task1_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -45,6 +46,7 @@
             android:id="@+id/task2_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -57,6 +59,7 @@
             android:id="@+id/task3_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -69,6 +72,7 @@
             android:id="@+id/task4_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -81,6 +85,7 @@
             android:id="@+id/task5_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -93,6 +98,7 @@
             android:id="@+id/task6_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:paddingBottom="3dp" />
 
         <View
@@ -114,24 +120,29 @@
                 android:backgroundTint="#165A97"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.988"
+                app:layout_constraintHorizontal_bias="0.977"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.985"
+                app:layout_constraintVertical_bias="0.942"
                 app:srcCompat="@drawable/add_task_icon" />
 
             <Button
                 android:id="@+id/addTaskDone_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="49dp"
                 android:background="@drawable/rounded_corner"
                 android:backgroundTint="#197CD3"
                 android:fontFamily="@font/lexend"
+                android:text="Done"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                tools:layout_editor_absoluteX="121dp"
-                tools:layout_editor_absoluteY="273dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addTask_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.937" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
