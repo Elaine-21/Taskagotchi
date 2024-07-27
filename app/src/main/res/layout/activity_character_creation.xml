@@ -125,7 +125,7 @@
         android:fontFamily="@font/lexend"
         android:gravity="center_horizontal"
         android:inputType="text"
-        android:text="Character Username"
+        android:hint="Character Username"
         android:textColor="#0C0C0C"
         android:textSize="16sp" />
 
