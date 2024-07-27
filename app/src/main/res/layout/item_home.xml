@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="330dp"
         android:layout_height="160dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="365dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="366dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="#165A97"
         app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="#FF6200EE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="6dp"
-                android:text="TextView"
+                android:text="Energy:"
                 app:layout_constraintStart_toEndOf="@+id/taskagotchiPicture"
                 app:layout_constraintTop_toBottomOf="@+id/taskagotchiStreak" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="6dp"
-                android:text="TextView"
+                android:text="Streak:"
                 app:layout_constraintStart_toEndOf="@+id/taskagotchiPicture"
                 app:layout_constraintTop_toBottomOf="@+id/taskagotchiStatus" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="6dp"
-                android:text="TextView"
+                android:text="Status:"
                 app:layout_constraintStart_toEndOf="@+id/taskagotchiPicture"
                 app:layout_constraintTop_toBottomOf="@+id/taskagotchiName" />
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="35dp"
-                android:text="TextView"
+                android:text="Name"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/taskagotchiPicture"
                 app:layout_constraintTop_toTopOf="parent" />

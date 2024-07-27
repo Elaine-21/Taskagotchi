@@ -1,51 +1,124 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
+import android.graphics.Typeface
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
+import com.mobdeve.s13.martin.elaine.taskagotchi.adapter.HomeAdapter
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityHomeBinding
-import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityRegisterBinding
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.HomeData
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var characterReference: DatabaseReference
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var homeArrayList: ArrayList<HomeData>
+    private lateinit var viewBinding: ActivityHomeBinding
+    private lateinit var homeAdapter: HomeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewBinding: ActivityHomeBinding = ActivityHomeBinding.inflate(layoutInflater)
+        viewBinding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        // Retrieve the TextView from the layout
-        val welcomeTextView: TextView = findViewById(R.id.textView)
+        applyFont()
+
+        // Initialize RecyclerView
+        viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.homeRecyclerView.setHasFixedSize(true)
+
+        //adapter
+        homeArrayList = arrayListOf()
+        homeAdapter = HomeAdapter(homeArrayList)
+        viewBinding.homeRecyclerView.adapter = homeAdapter
 
         // Retrieve data from the Intent
         val username = intent.getStringExtra("username")
         val userId = intent.getStringExtra("userId")
 
-        // Create a welcome message with the retrieved data
-        val welcomeMessage = "WELCOME $username\nUser ID: $userId"
-
-        // Set the welcome message to the TextView
-        welcomeTextView.text = welcomeMessage
-
-        viewBinding.addCharacterBtn.setOnClickListener{
+        viewBinding.addCharacterBtn.setOnClickListener {
             val intent = Intent(this@HomeActivity, CharacterCreation::class.java)
-
             intent.putExtra("username", username)
             intent.putExtra("userId", userId)
             startActivity(intent)
             finish()
         }
+
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        if (userId != null) {
+            databaseReference = firebaseDatabase.getReference("users").child(userId)
+            getCharacterId()
+        } else {
+            showToast("User ID is null.")
+        }
     }
 
+    private fun applyFont() {
+        val luckiest_guy: Typeface? = ResourcesCompat.getFont(this, R.font.luckiest_guy)
 
+        // Applying luckiest_guy font to text views
+        val home_title_tv: TextView = findViewById(R.id.home_title_tv)
+        home_title_tv.typeface = luckiest_guy
+    }
 
+    private fun getCharacterId() {
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val userData = snapshot.getValue(UserData::class.java)
+                    val charactersIdList = userData?.charactersIdList
+
+                    charactersIdList?.let { ids ->
+                        if (ids.isNotEmpty()) {
+                            // Fetch each character's data
+                            for (characterId in ids) {
+                                getCharacterData(characterId)
+                            }
+                        } else {
+                            showToast("No characters found for this user.")
+                        }
+                    } ?: showToast("Characters ID list is null.")
+                } else {
+                    showToast("User data does not exist.")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                showToast("Database Error: ${error.message}")
+            }
+        })
+    }
+
+    private fun getCharacterData(characterId: String) {
+        characterReference = firebaseDatabase.getReference("taskagotchiCharacter").child(characterId)
+        characterReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val homeData = snapshot.getValue(HomeData::class.java)
+                    homeData?.let {
+                        homeArrayList.add(it)
+                        homeAdapter.notifyDataSetChanged() // maybe change this?
+                    } ?: showToast("Taskagotchi data is null.")
+                } else {
+                    showToast("Character data does not exist.")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                showToast("Database Error: ${error.message}")
+            }
+        })
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@HomeActivity, message, Toast.LENGTH_SHORT).show()
+    }
 }

@@ -12,6 +12,6 @@ data class TaskagotchiData(
     var status: String? = "Healthy",
     var streak: Int? = 0,
     var energy: Int? = 50,
-    var debuff: String? = "None",
+    var debuff: String? = "none",
     var tasks: List<TaskData>? = null
 )

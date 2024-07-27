@@ -3,6 +3,7 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log//remove later
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -63,6 +64,7 @@ class LoginActivity : ComponentActivity() {
                     for(userSnapshot in snapshot.children){
                         val userData = userSnapshot.getValue(UserData::class.java)
                         if(userData != null && userData.password == password){
+//                            Log.d("LoginActivity", "User ID: ${userData.id}")//remove later
                             val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                             // Put the username and password into the Intent
                             intent.putExtra("username", username)
