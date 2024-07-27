@@ -101,6 +101,7 @@ class CharacterCreation : AppCompatActivity() {
                 addChartoList(userId)
                 val intent = Intent(this@CharacterCreation, TaskCreationActivity::class.java)
                 // Put the username and password into the Intent
+                intent.putExtra("username", username)
                 intent.putExtra("userId", userId)
                 intent.putExtra("charId", id)
                 startActivity(intent)

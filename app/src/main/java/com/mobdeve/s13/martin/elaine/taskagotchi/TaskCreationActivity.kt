@@ -1,6 +1,7 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class TaskCreationActivity : AppCompatActivity() {
         taskDatabaseReference = firebaseDatabase.reference.child("tasks")
 
         //
+        val username = intent.getStringExtra("username")
         val userId = intent.getStringExtra("userId")
         val charId = intent.getStringExtra("charId")
 
@@ -101,6 +103,12 @@ class TaskCreationActivity : AppCompatActivity() {
         viewBinding.addTaskDoneBtn.setOnClickListener {
             if(taskAdded == taskQuantity){
                 Toast.makeText(this@TaskCreationActivity, "Tasks added", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@TaskCreationActivity, HomeActivity::class.java)
+                // Put the username and password into the Intent
+                intent.putExtra("username", username)
+                intent.putExtra("userId", userId)
+                startActivity(intent)
+                finish()
             }else{
                 Toast.makeText(this@TaskCreationActivity, "Please complete task quantity: ${taskQuantity}", Toast.LENGTH_SHORT).show()
             }
