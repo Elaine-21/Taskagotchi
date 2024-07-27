@@ -52,6 +52,7 @@ class HomeActivity : AppCompatActivity() {
             finish()
         }
 
+        //fetching of data from the firebase users
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (userId != null) {
             databaseReference = firebaseDatabase.getReference("users").child(userId)
@@ -61,6 +62,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    //fonts
     private fun applyFont() {
         val luckiest_guy: Typeface? = ResourcesCompat.getFont(this, R.font.luckiest_guy)
 
@@ -69,6 +71,7 @@ class HomeActivity : AppCompatActivity() {
         home_title_tv.typeface = luckiest_guy
     }
 
+    //getting the data inside the user charactersIdList then passing it
     private fun getCharacterId() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -97,6 +100,7 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
+    //fetching the data that is the same in the taskagotchiCharacter
     private fun getCharacterData(characterId: String) {
         characterReference = firebaseDatabase.getReference("taskagotchiCharacter").child(characterId)
         characterReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -105,7 +109,7 @@ class HomeActivity : AppCompatActivity() {
                     val homeData = snapshot.getValue(HomeData::class.java)
                     homeData?.let {
                         homeArrayList.add(it)
-                        homeAdapter.notifyDataSetChanged() // maybe change this?
+                        homeAdapter.notifyDataSetChanged() // signals change to the adapter
                     } ?: showToast("Taskagotchi data is null.")
                 } else {
                     showToast("Character data does not exist.")
@@ -118,6 +122,7 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
+    //function to display toast
     private fun showToast(message: String) {
         Toast.makeText(this@HomeActivity, message, Toast.LENGTH_SHORT).show()
     }
