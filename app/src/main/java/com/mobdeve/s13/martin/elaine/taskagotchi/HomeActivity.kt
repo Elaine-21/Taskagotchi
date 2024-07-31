@@ -38,7 +38,14 @@ class HomeActivity : AppCompatActivity() {
         //adapter
         homeArrayList = arrayListOf()
         homeAdapter = HomeAdapter(homeArrayList)
-        viewBinding.homeRecyclerView.adapter = homeAdapter
+        var adapter = homeAdapter
+        viewBinding.homeRecyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object: HomeAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                Toast.makeText(this@HomeActivity, "You Clicked on item no. $position", Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
         // Retrieve data from the Intent
         val username = intent.getStringExtra("username")
