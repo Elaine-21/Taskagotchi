@@ -16,8 +16,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityCharacterCreationBinding
-import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterDifficulty
-import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterGender
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskagotchiData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
 
@@ -77,25 +75,11 @@ class CharacterCreation : AppCompatActivity() {
     }
 
     private fun createCharacter(username: String, userId: String, name: String, difficulty: String, picURL: String){
-        val charDifficulty: Enum<CharacterDifficulty>
-        val charGender: Enum<CharacterGender>
-        if(difficulty == "Beginner"){
-            charDifficulty = CharacterDifficulty.BEGINNER
-        }else if(difficulty == "Amateur"){
-            charDifficulty = CharacterDifficulty.AMATEUR
-        }else{
-            charDifficulty = CharacterDifficulty.EXPERT
-        }
 
-        if(selectedGender == "male"){
-            charGender = CharacterGender.MALE
-        }else{
-            charGender = CharacterGender.FEMALE
-        }
-        taskaCharacterReference.orderByChild("name").equalTo(name).addListenerForSingleValueEvent(object: ValueEventListener{
+        id = taskaCharacterReference.push().key
+        taskaCharacterReference.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                id = taskaCharacterReference.push().key
-                val taskagotchiData = TaskagotchiData(id, name, charDifficulty, picURL, charGender, selectedColor)
+                val taskagotchiData = TaskagotchiData(id, name, difficulty, picURL, selectedGender, selectedColor)
                 taskaCharacterReference.child(id!!).setValue(taskagotchiData)
                 Toast.makeText(this@CharacterCreation, "Character created successfully", Toast.LENGTH_SHORT).show()
                 addChartoList(userId)
@@ -121,12 +105,12 @@ class CharacterCreation : AppCompatActivity() {
             return
         }
 
-        // Retrieve UserData from Firebase
         usersReference.child(userId!!).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("CharacterCreation", "DataSnapshot: ${snapshot.value}")
                 val userData = snapshot.getValue(UserData::class.java)
                 if (userData != null) {
-                    // Update charactersIdList
+
                     val updatedList = userData.charactersIdList?.toMutableList() ?: mutableListOf()
                     if (!updatedList.contains(id)) {
                         updatedList.add(id!!)

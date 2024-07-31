@@ -18,10 +18,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityTaskCreationBinding
-import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterDifficulty
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskagotchiData
-import kotlin.math.log
+import java.util.Calendar
+import java.util.Date
 
 class TaskCreationActivity : AppCompatActivity() {
 
@@ -118,27 +118,53 @@ class TaskCreationActivity : AppCompatActivity() {
 
 
     private fun saveTasks(charId: String?, title: String, description: String, frequency: String) {
-        taskaCharacterReference.orderByChild("id").equalTo(charId).addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (child in snapshot.children) {
-                        val characterDetails = child.getValue(TaskagotchiData::class.java)
-                        if (characterDetails != null) {
-                            val id = taskDatabaseReference.push().key
-                            val task = TaskData(id, title, description, frequency)
-                            val tasks = characterDetails.tasks?.toMutableList() ?: mutableListOf()
-                            tasks.add(task)
-                            characterDetails.tasks = tasks
+        val id = taskDatabaseReference.push().key
+        val startDate = Calendar.getInstance().time
+        val endDate: Date
 
+        val calendar = Calendar.getInstance()
+        when (frequency) {
+            "Everyday" -> calendar.add(Calendar.DAY_OF_YEAR, 1)
+            "Once a Week" -> calendar.add(Calendar.DAY_OF_YEAR, 2)
+            "Every Other Day" -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+        }
+        endDate = calendar.time
+
+        val taskData = TaskData(id, title, description, frequency, startDate, endDate)
+
+        if (id != null) {
+            taskDatabaseReference.child(id).setValue(taskData).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    addTaskIdToCharacter(charId, id)
+                } else {
+                    Toast.makeText(this, "Failed Adding Task in database", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Failed Generating Task ID", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    private fun addTaskIdToCharacter(charId: String?, taskId: String) {
+        if (charId == null || taskId == null) {
+            Toast.makeText(this, "Character ID is null", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        taskaCharacterReference.child(charId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("TaskCreationActivity", "DataSnapshot: ${snapshot.value}")
+                val characterDetails = snapshot.getValue(TaskagotchiData::class.java)
+                if (characterDetails != null) {
+                    val taskIds = characterDetails.tasksIDList?.toMutableList() ?: mutableListOf()
+                        if(!taskIds.contains(taskId)){
+                            taskIds.add(taskId!!)
+                            characterDetails.tasksIDList = taskIds
                             taskaCharacterReference.child(charId!!).setValue(characterDetails)
-                                .addOnSuccessListener {
-                                    Toast.makeText(this@TaskCreationActivity, "Task saved successfully", Toast.LENGTH_SHORT).show()
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(this@TaskCreationActivity, "Failed to save task", Toast.LENGTH_SHORT).show()
-                                }
+                            Log.d("TaskCreationActivity", "Task ID added: ${taskId}")
                         }
-                    }
+                } else {
+                    Toast.makeText(this@TaskCreationActivity, "Character not found", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -148,14 +174,15 @@ class TaskCreationActivity : AppCompatActivity() {
         })
     }
 
+
     //gets the number of task needed for the character difficulty
     private fun getTaskQuantity(difficulty: String?){
 
-        if(difficulty == "BEGINNER"){
+        if(difficulty == "Beginner"){
             taskQuantity = 2
-        }else if(difficulty == "AMATEUR"){
+        }else if(difficulty == "Amateur"){
             taskQuantity = 4
-        }else if(difficulty == "EXPERT"){
+        }else if(difficulty == "Expert"){
             taskQuantity = 6
         }
 
@@ -214,9 +241,6 @@ class TaskCreationActivity : AppCompatActivity() {
                 else -> ""
             }
 
-            Log.d("TaskCreation", "Title: $taskTitle")
-            Log.d("TaskCreation", "Description: $taskDescription")
-            Log.d("TaskCreation", "frequency: $frequency")
             Log.d("TaskCreation", "TaskQuantity: $taskQuantity")
 
 
@@ -225,7 +249,7 @@ class TaskCreationActivity : AppCompatActivity() {
                 taskAdded += 1
                 Log.d("TaskCreation", "Task Added: ${taskAdded}")
                 showAddedTask()
-//                saveTasks(charId, taskTitle, taskDescription, frequency)
+                saveTasks(charId, taskTitle, taskDescription, frequency)
                 dialog.dismiss()
             }else if (taskTitle == ""){
                 Toast.makeText(this@TaskCreationActivity, "Please enter task title", Toast.LENGTH_SHORT).show()
