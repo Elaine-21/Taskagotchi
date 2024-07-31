@@ -14,10 +14,14 @@
         tools:targetApi="31" >
         <activity
             android:name=".CharacterDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="CharacterDetails"
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".CharacterEncyclopediaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="CharacterEncyclopedia"
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".AdditionalTaskActivity"
             android:exported="false" />

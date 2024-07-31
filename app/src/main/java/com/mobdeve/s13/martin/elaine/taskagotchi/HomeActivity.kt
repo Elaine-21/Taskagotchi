@@ -3,6 +3,7 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +43,14 @@ class HomeActivity : AppCompatActivity() {
         viewBinding.homeRecyclerView.adapter = adapter
         adapter.setOnItemClickListener(object: HomeAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
-                Toast.makeText(this@HomeActivity, "You Clicked on item no. $position", Toast.LENGTH_SHORT).show()
+                val selectedCharacter = homeArrayList[position]
+//                Toast.makeText(this@HomeActivity, "You Clicked on item no. $position", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@HomeActivity, CharacterDetailsActivity::class.java)
+                intent.putExtra("characterId", selectedCharacter.id)
+                //delete log later
+                Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.id}")
+                startActivity(intent)
+                onPause()
             }
 
         })
@@ -56,7 +64,7 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("username", username)
             intent.putExtra("userId", userId)
             startActivity(intent)
-            finish()
+            finish()//possible cause of problem when return button on the phone i clicked as it destroys this activity
         }
 
         //fetching of data from the firebase users

@@ -24,10 +24,11 @@
         android:id="@+id/taskagotchiNameCD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
         android:text="Name"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/taskagotchiPictureCD"
-        tools:layout_editor_absoluteX="71dp" />
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/taskagotchiPictureCD" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -179,10 +180,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toTopOf="@id/view1"
-            app:layout_constraintTop_toBottomOf="@+id/textView28"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <View
             android:id="@+id/view1"
@@ -227,10 +229,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/view2"
-            app:layout_constraintTop_toBottomOf="@+id/view1"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <View
             android:id="@+id/view2"
@@ -275,10 +278,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/view3"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <View
             android:id="@+id/view3"
@@ -323,10 +327,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toTopOf="@id/view4"
-            app:layout_constraintTop_toBottomOf="@+id/view3"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <View
             android:id="@+id/view4"
@@ -371,10 +376,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toTopOf="@id/view5"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <View
             android:id="@+id/view5"
@@ -419,10 +425,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
+            android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/view6"
-            app:layout_constraintTop_toBottomOf="@+id/view5"
-            tools:layout_editor_absoluteX="274dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <View
             android:id="@+id/view6"
