@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Taskagotchi"
         tools:targetApi="31">
         <activity
+            android:name=".CharacterEncyclopediaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdditionalTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".CharacterEvolutionHistoryActivity"
             android:exported="false" />
         <activity
