@@ -2,6 +2,7 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -99,39 +100,80 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
 
     private fun bindTaskData(taskNumber: Int, taskData: TaskData) {
+        val title = taskData.title ?: "No title available"
+        val frequency = taskData.frequency ?: "No frequency available"
+        val description = taskData.description ?: "No description available"
+
         when (taskNumber) {
             1 -> {
-                viewBinding.task1CD.text = taskData.title ?: "No title available"
-                viewBinding.task1Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task1Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task1CD.text = title
+                    viewBinding.task1Frequency.text = frequency
+                    viewBinding.task1Description.text = description
+                    viewBinding.task1CD.visibility = View.VISIBLE
+                    viewBinding.task1Frequency.visibility = View.VISIBLE
+                    viewBinding.task1Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask1.visibility = View.VISIBLE
+                }
             }
             2 -> {
-                viewBinding.task2CD.text = taskData.title ?: "No title available"
-                viewBinding.task2Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task2Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task2CD.text = title
+                    viewBinding.task2Frequency.text = frequency
+                    viewBinding.task2Description.text = description
+                    viewBinding.task2CD.visibility = View.VISIBLE
+                    viewBinding.task2Frequency.visibility = View.VISIBLE
+                    viewBinding.task2Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask2.visibility = View.VISIBLE
+                }
             }
             3 -> {
-                viewBinding.task3CD.text = taskData.title ?: "No title available"
-                viewBinding.task3Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task3Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task3CD.text = title
+                    viewBinding.task3Frequency.text = frequency
+                    viewBinding.task3Description.text = description
+                    viewBinding.task3CD.visibility = View.VISIBLE
+                    viewBinding.task3Frequency.visibility = View.VISIBLE
+                    viewBinding.task3Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask3.visibility = View.VISIBLE
+                }
             }
             4 -> {
-                viewBinding.task4CD.text = taskData.title ?: "No title available"
-                viewBinding.task4Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task4Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task4CD.text = title
+                    viewBinding.task4Frequency.text = frequency
+                    viewBinding.task4Description.text = description
+                    viewBinding.task4CD.visibility = View.VISIBLE
+                    viewBinding.task4Frequency.visibility = View.VISIBLE
+                    viewBinding.task4Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask4.visibility = View.VISIBLE
+                }
             }
             5 -> {
-                viewBinding.task5CD.text = taskData.title ?: "No title available"
-                viewBinding.task5Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task5Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task5CD.text = title
+                    viewBinding.task5Frequency.text = frequency
+                    viewBinding.task5Description.text = description
+                    viewBinding.task5CD.visibility = View.VISIBLE
+                    viewBinding.task5Frequency.visibility = View.VISIBLE
+                    viewBinding.task5Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask5.visibility = View.VISIBLE
+                }
             }
             6 -> {
-                viewBinding.task6CD.text = taskData.title ?: "No title available"
-                viewBinding.task6Frequency.text = taskData.frequency ?: "No frequency available"
-                viewBinding.task6Description.text = taskData.description ?: "No description available"
+                if (taskData.title != null || taskData.frequency != null || taskData.description != null) {
+                    viewBinding.task6CD.text = title
+                    viewBinding.task6Frequency.text = frequency
+                    viewBinding.task6Description.text = description
+                    viewBinding.task6CD.visibility = View.VISIBLE
+                    viewBinding.task6Frequency.visibility = View.VISIBLE
+                    viewBinding.task6Description.visibility = View.VISIBLE
+                    viewBinding.radioBtnTask6.visibility = View.VISIBLE
+                }
             }
         }
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()

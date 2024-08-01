@@ -42,6 +42,15 @@ class HomeAdapter(private val data: ArrayList<HomeData>/*, private var activity:
             this.viewBinding.taskagotchiEnergyData.text = model.energy?.toString() ?: "N/A"
             this.viewBinding.taskagotchiStreakData.text = model.streak?.toString() ?: "N/A"
             this.viewBinding.taskagotchiStatusData.text = model.status?.toString() ?: "N/A"
+            model.picURL?.let { picURL ->
+                val resId = itemView.context.resources.getIdentifier(picURL, "drawable", itemView.context.packageName)
+                if (resId != 0) {
+                    viewBinding.taskagotchiPicture.setImageResource(resId)
+                } else {
+                    // Optionally handle the case where the image is not found
+                    Log.e("HomeAdapter", "Drawable resource not found: $picURL")
+                }
+            }
         }
         init{
             itemView.setOnClickListener{
