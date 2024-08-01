@@ -21,6 +21,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private lateinit var characterReference: DatabaseReference
     private lateinit var taskReference: DatabaseReference
     private lateinit var taskArrayList: ArrayList<TaskData>
+    private lateinit var taskIds: ArrayList<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val characterStreak = this.intent.getIntExtra("characterStreak", 0)
         val characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
         val characterDebuff = this.intent.getStringExtra("characterDebuff")
+        taskIds = intent.getStringArrayListExtra("taskIds") ?: arrayListOf()
 
         Log.d("CharacterDetailsActivity", "Character ID: $characterId")
         Log.d("CharacterDetailsActivity", "Character Name: $characterName")
@@ -42,6 +44,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
         Log.d("CharacterDetailsActivity", "Character Streak: $characterStreak")
         Log.d("CharacterDetailsActivity", "Character Energy: $characterEnergy")
         Log.d("CharacterDetailsActivity", "Character Debuff: $characterDebuff")
+        Log.d("CharacterDetailsActivity", "Received Task IDs: $taskIds")
+
+
 
         viewBinding.taskagotchiNameCD.text = characterName ?: "No name available"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"

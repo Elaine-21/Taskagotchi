@@ -53,8 +53,13 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("characterStreak", selectedCharacter.streak ?: 0)
                 intent.putExtra("characterEnergy", selectedCharacter.energy ?: 0)
                 intent.putExtra("characterDebuff", selectedCharacter.debuff)
+                val taskIds = selectedCharacter.tasksIDList?: emptyList()
+                intent.putStringArrayListExtra("taskIds", ArrayList(taskIds))
 //                intent.putParcelableArrayListExtra("characterTasks", ArrayList(selectedCharacter.tasks))
 
+                taskIds.forEachIndexed { index, taskId ->
+                    Log.d("HomeActivity", "Task ID[$index]: $taskId")
+                }
                 Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.streak}")
                 Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.energy}")
                 //delete log later
