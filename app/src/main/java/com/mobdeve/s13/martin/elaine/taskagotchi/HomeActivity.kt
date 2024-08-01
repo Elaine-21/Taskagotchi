@@ -47,12 +47,19 @@ class HomeActivity : AppCompatActivity() {
 //                Toast.makeText(this@HomeActivity, "You Clicked on item no. $position", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@HomeActivity, CharacterDetailsActivity::class.java)
                 intent.putExtra("characterId", selectedCharacter.id)
+                intent.putExtra("characterName", selectedCharacter.name)
+                intent.putExtra("characterPicURL", selectedCharacter.picURL)
+                intent.putExtra("characterStatus", selectedCharacter.status)
+                intent.putExtra("characterStreak", selectedCharacter.streak)
+                intent.putExtra("characterEnergy", selectedCharacter.energy)
+                intent.putExtra("characterDebuff", selectedCharacter.debuff)
+//                intent.putParcelableArrayListExtra("characterTasks", ArrayList(selectedCharacter.tasks))
+
                 //delete log later
-                Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.id}")
+                //Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.id}")
                 startActivity(intent)
                 onPause()
             }
-
         })
 
         // Retrieve data from the Intent
@@ -64,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("username", username)
             intent.putExtra("userId", userId)
             startActivity(intent)
-            finish()//possible cause of problem when return button on the phone i clicked as it destroys this activity
+            onPause()//possible cause of problem when return button on the phone i clicked as it destroys this activity
         }
 
         //fetching of data from the firebase users

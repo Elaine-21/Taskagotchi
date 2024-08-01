@@ -10,6 +10,6 @@ data class HomeData(
     var status: String? = null,
     var streak: Int? = null,
     var energy: Int? = null,
-    var debuff: String? = null
-//    var tasks: List<TaskData>? = null
+    var debuff: String? = null,
+    var tasks: List<TaskData>? = null
 )
