@@ -50,11 +50,13 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("characterName", selectedCharacter.name)
                 intent.putExtra("characterPicURL", selectedCharacter.picURL)
                 intent.putExtra("characterStatus", selectedCharacter.status)
-                intent.putExtra("characterStreak", selectedCharacter.streak)
-                intent.putExtra("characterEnergy", selectedCharacter.energy)
+                intent.putExtra("characterStreak", selectedCharacter.streak ?: 0)
+                intent.putExtra("characterEnergy", selectedCharacter.energy ?: 0)
                 intent.putExtra("characterDebuff", selectedCharacter.debuff)
 //                intent.putParcelableArrayListExtra("characterTasks", ArrayList(selectedCharacter.tasks))
 
+                Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.streak}")
+                Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.energy}")
                 //delete log later
                 //Log.d("HomeActivity", "Selected Character ID: ${selectedCharacter.id}")
                 startActivity(intent)
