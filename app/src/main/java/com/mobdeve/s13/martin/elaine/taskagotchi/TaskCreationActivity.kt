@@ -1,5 +1,6 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -152,6 +153,7 @@ class TaskCreationActivity : AppCompatActivity() {
         }
 
         taskaCharacterReference.child(charId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("SuspiciousIndentation")
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("TaskCreationActivity", "DataSnapshot: ${snapshot.value}")
                 val characterDetails = snapshot.getValue(TaskagotchiData::class.java)

@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityCharacterCreationBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskagotchiData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
+import java.util.Calendar
+import java.util.Date
 
 class CharacterCreation : AppCompatActivity() {
 
@@ -74,12 +76,32 @@ class CharacterCreation : AppCompatActivity() {
 
     }
 
+    private fun charData(name: String, difficulty: String, picURL: String): TaskagotchiData {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 21)
+        var levelUpDate = calendar.time
+
+        val char = TaskagotchiData(
+            id = id,
+            name = name,
+            difficulty = difficulty,
+            picURL = picURL,
+            gender = selectedGender,
+            color = selectedColor,
+            age = "baby",
+            levelUpDate = levelUpDate,
+            charEvolution = mutableListOf()
+        )
+        // Add picURL to the charEvolution list
+        char.charEvolution?.add(picURL)
+        return char
+    }
     private fun createCharacter(username: String, userId: String, name: String, difficulty: String, picURL: String){
 
         id = taskaCharacterReference.push().key
         taskaCharacterReference.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val taskagotchiData = TaskagotchiData(id, name, difficulty, picURL, selectedGender, selectedColor)
+                val taskagotchiData = charData(name, difficulty, picURL)
                 taskaCharacterReference.child(id!!).setValue(taskagotchiData)
                 Toast.makeText(this@CharacterCreation, "Character created successfully", Toast.LENGTH_SHORT).show()
                 addChartoList(userId)

@@ -8,5 +8,6 @@ data class TaskData(
     var description: String? = null,
     val frequency: String? = null,
     var startDate: Date? = null,
-    var lastCompletedDate: Date? = null
+    var lastCompletedDate: Date? = null,
+    var isDone: Boolean? = false
 )

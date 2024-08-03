@@ -1,6 +1,6 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi.model
 
-import androidx.compose.ui.graphics.Color
+import java.util.Date
 
 data class TaskagotchiData(
     val id: String? = null,
@@ -14,5 +14,7 @@ data class TaskagotchiData(
     var streak: Int? = 0,
     var energy: Int? = 50,
     var debuff: String? = "none",
+    var levelUpDate: Date? = null,
+    var charEvolution: MutableList<String> = mutableListOf(),
     var tasksIDList: List<String>? = null
 )
