@@ -55,7 +55,11 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("characterDebuff", selectedCharacter.debuff)
                 val taskIds = selectedCharacter.tasksIDList?: emptyList()
                 intent.putStringArrayListExtra("taskIds", ArrayList(taskIds))
-//                intent.putParcelableArrayListExtra("characterTasks", ArrayList(selectedCharacter.tasks))
+//                val charIds = selectedCharacter.charEvolution?: emptyList()
+//                intent.putStringArrayListExtra("charEvolution", ArrayList(selectedCharacter.charEvolution))
+//                intent.putStringArrayListExtra("charEvolution", ArrayList(selectedCharacter.charEvolution))
+                val charIds = selectedCharacter.charEvolution?: emptyList()
+                intent.putStringArrayListExtra("charIds", ArrayList(charIds))
 
                 taskIds.forEachIndexed { index, taskId ->
                     Log.d("HomeActivity", "Task ID[$index]: $taskId")

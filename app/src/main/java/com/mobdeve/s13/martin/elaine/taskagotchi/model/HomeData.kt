@@ -11,5 +11,6 @@ data class HomeData(
     var streak: Int? = null,
     var energy: Int? = null,
     var debuff: String? = null,
+    var charEvolution: List<String>? = null,//var charEvolution: MutableList<String> = mutableListOf(),
     var tasksIDList: List<String>? = null
 )

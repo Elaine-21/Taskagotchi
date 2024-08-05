@@ -1,5 +1,6 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,6 +23,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 //    private lateinit var taskReference: DatabaseReference
 //    private lateinit var taskArrayList: ArrayList<TaskData>
     private lateinit var taskIds: ArrayList<String>
+    private lateinit var charIds: ArrayList<String>
     private lateinit var viewBinding: ActivityCharacterDetailsBinding
 
 
@@ -38,6 +40,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
         val characterDebuff = this.intent.getStringExtra("characterDebuff")
         taskIds = intent.getStringArrayListExtra("taskIds") ?: arrayListOf()
+//        val charEvolution = intent.getStringArrayListExtra("charEvolution")?.toMutableList()
+        charIds = intent.getStringArrayListExtra("charIds") ?: arrayListOf()
 
         Log.d("CharacterDetailsActivity", "Character ID: $characterId")
         Log.d("CharacterDetailsActivity", "Character Name: $characterName")
@@ -46,6 +50,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         Log.d("CharacterDetailsActivity", "Character Energy: $characterEnergy")
         Log.d("CharacterDetailsActivity", "Character Debuff: $characterDebuff")
         Log.d("CharacterDetailsActivity", "Received Task IDs: $taskIds")
+        Log.d("CharacterDetailsActivity", "Received character IDs: $charIds")
 
         viewBinding.taskagotchiNameCD.text = characterName ?: "No name available"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"
@@ -61,6 +66,22 @@ class CharacterDetailsActivity : AppCompatActivity() {
             }
         }
 
+        //aditional task button
+        viewBinding.additionalTaskBtn.setOnClickListener {
+            val intent = Intent(this@CharacterDetailsActivity, AdditionalTaskActivity::class.java)
+            startActivity(intent)
+            onPause()
+        }
+
+        //character evolution button
+        viewBinding.characterEvolutionBtn.setOnClickListener {
+            Log.d( "CharacterDetailsActivity", "charEvolutionBtn clicked")
+            val intent = Intent(this@CharacterDetailsActivity, CharacterEvolutionHistoryActivity::class.java)
+
+            intent.putStringArrayListExtra("charIds", charIds)
+            startActivity(intent)
+            onPause()
+        }
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (taskIds.isNotEmpty()) {
@@ -179,5 +200,3 @@ class CharacterDetailsActivity : AppCompatActivity() {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()
     }
 }
-
-// dont need to use the array list just bind it already to the element
