@@ -7,7 +7,8 @@ data class TaskData(
     var title: String? = null,
     var description: String? = null,
     val frequency: String? = null,
-    var startDate: Date? = null,
+   // var startDate: Date? = null,
+    //checks how many days it has been since the last completion of the task for the debuff
     var lastCompletedDate: Date? = null,
-    var isDone: Boolean? = false
+    var missCntr: Int? = null
 )

@@ -120,18 +120,8 @@ class TaskCreationActivity : AppCompatActivity() {
 
     private fun saveTasks(charId: String?, title: String, description: String, frequency: String) {
         val id = taskDatabaseReference.push().key
-        val startDate = Calendar.getInstance().time
-        val endDate: Date
 
-        val calendar = Calendar.getInstance()
-        when (frequency) {
-            "Everyday" -> calendar.add(Calendar.DAY_OF_YEAR, 1)
-            "Once a Week" -> calendar.add(Calendar.DAY_OF_YEAR, 2)
-            "Every Other Day" -> calendar.add(Calendar.DAY_OF_YEAR, 7)
-        }
-        endDate = calendar.time
-
-        val taskData = TaskData(id, title, description, frequency, startDate, endDate)
+        val taskData = TaskData(id, title, description, frequency)
 
         if (id != null) {
             taskDatabaseReference.child(id).setValue(taskData).addOnCompleteListener { task ->
