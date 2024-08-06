@@ -64,7 +64,7 @@ class CharacterCreation : AppCompatActivity() {
 
             if(charUsername != "Character Username" && charDifficulty != null && userId != null && username != null){
                 createCharacter(username, userId, charUsername, charDifficulty, charURLPic)
-                Toast.makeText(this@CharacterCreation, "Fields are complete", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@CharacterCreation, "Fields are complete", Toast.LENGTH_SHORT).show()
             }else if (charUsername == "Character Username" ){
                 Toast.makeText(this@CharacterCreation, "Please enter character username", Toast.LENGTH_SHORT).show()
             }else{
