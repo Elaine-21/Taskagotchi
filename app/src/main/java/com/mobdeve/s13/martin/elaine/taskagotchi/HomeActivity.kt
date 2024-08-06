@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -85,6 +86,12 @@ class HomeActivity : AppCompatActivity() {
             onPause()//possible cause of problem when return button on the phone i clicked as it destroys this activity
         }
 
+        viewBinding.signoutBtn.setOnClickListener {
+            val intent = Intent(this@HomeActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         //fetching of data from the firebase users
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (userId != null) {
@@ -93,7 +100,15 @@ class HomeActivity : AppCompatActivity() {
         } else {
             showToast("User ID is null.")
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Log.d("HomeActivity", "Return button clicked")
+                moveTaskToBack(true)
+            }
+        })
     }
+
 
     //fonts
     private fun applyFont() {
