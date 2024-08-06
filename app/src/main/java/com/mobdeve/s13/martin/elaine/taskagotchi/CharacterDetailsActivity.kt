@@ -1,5 +1,6 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -64,7 +65,12 @@ class CharacterDetailsActivity : AppCompatActivity() {
             }
         }
 
-
+        viewBinding.addTaskRedirect.setOnClickListener{
+            val intent = Intent(this@CharacterDetailsActivity, AdditionalTaskActivity::class.java)
+            intent.putExtra("characterId", characterId)
+            startActivity(intent)
+            onPause()
+        }
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (taskIds.isNotEmpty()) {
             // Proceed to fetch and display tasks
@@ -166,7 +172,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     //This updates the startDate of the Task and sets the taskData.isDone to true
     private fun updateTaskStatus(taskData: TaskData){
-
+        missedDaysList.remove(taskData.missCntr)
         taskData.missCntr = 0
 
         val calendar = Calendar.getInstance()
@@ -219,8 +225,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val title = taskData.title ?: "No title available"
         val frequency = taskData.frequency ?: "No frequency available"
         val description = taskData.description ?: "No description available"
-        var characterDebuff: String? = null
-        var characterStatus: String? = null
+
 
         when (taskNumber) {
             1 -> {
@@ -242,6 +247,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask1.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
                 }
@@ -265,6 +271,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask2.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
 
@@ -289,6 +296,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask3.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
 
@@ -313,6 +321,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask4.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
                 }
@@ -336,6 +345,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask5.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
                 }
@@ -359,13 +369,22 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask6.isChecked = true
                             updateTaskStatus(taskData)
+                            updateMissedDays(characterId)
                         }
                     }
                 }
             }
         }
 
+        updateMissedDays(characterId)
 
+
+    }
+
+
+    private fun updateMissedDays(characterId:String?){
+        var characterDebuff: String? = null
+        var characterStatus: String? = null
         val maxMissedDays = missedDaysList.maxOrNull() ?: 0
         Log.d("Debuff Calculation", "Highest number of missed days: $maxMissedDays")
 
@@ -382,17 +401,12 @@ class CharacterDetailsActivity : AppCompatActivity() {
             characterDebuff = "x1.00"
             characterStatus = "Debuffed"
         }
-        viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "No debuff available"
-        viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"
+        viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "None"
+        viewBinding.taskagotchiHealthCD.text = characterStatus ?: "Healthy"
 
         saveTasktoCharacterData(characterId, characterDebuff, characterStatus)
-
     }
-
-
     private fun showToast(message: String) {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()
     }
 }
-
-// dont need to use the array list just bind it already to the element

@@ -24,10 +24,14 @@
             android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".AdditionalTaskActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="AdditionalTasks"
+            android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name=".CharacterEvolutionHistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="CharacterEvolution"
+            android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name=".TaskCreationActivity"
             android:exported="false"
