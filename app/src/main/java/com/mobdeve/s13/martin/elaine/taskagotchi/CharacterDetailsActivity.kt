@@ -85,6 +85,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             startActivity(intent)
             onPause()
         }
+        
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (taskIds.isNotEmpty()) {
