@@ -28,18 +28,21 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private lateinit var taskIds: ArrayList<String>
     private lateinit var viewBinding: ActivityCharacterDetailsBinding
     private val missedDaysList = mutableListOf<Int>()
+    private var characterId : String? = null
+    private var characterEnergy : Int? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        val characterId = this.intent.getStringExtra("characterId")
+        characterId = this.intent.getStringExtra("characterId")
         val characterName = this.intent.getStringExtra("characterName")
         val characterPicURL = this.intent.getStringExtra("characterPicURL")
         var characterStatus = this.intent.getStringExtra("characterStatus")
         val characterStreak = this.intent.getIntExtra("characterStreak", 0)
-        val characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
+        characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
         var characterDebuff = this.intent.getStringExtra("characterDebuff")
         taskIds = intent.getStringArrayListExtra("taskIds") ?: arrayListOf()
 
@@ -68,6 +71,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding.addTaskRedirect.setOnClickListener{
             val intent = Intent(this@CharacterDetailsActivity, AdditionalTaskActivity::class.java)
             intent.putExtra("characterId", characterId)
+            intent.putExtra("taskIdsSize", taskIds.size)
+            intent.putExtra("energy", characterEnergy)
             startActivity(intent)
             onPause()
         }
@@ -82,6 +87,30 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
 
 
+    }
+    override fun onResume() {
+        super.onResume()
+        fetchCharacterData() // This method will fetch and update the character's data
+    }
+
+    private fun fetchCharacterData() {
+        if (characterId != null) {
+            // Assuming you have a reference to your Firebase database
+            val characterRef = firebaseDatabase.getReference("taskagotchiCharacter/$characterId")
+            Log.d("onResume", "characterID: ${characterId}")
+            characterRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        characterEnergy = snapshot.child("energy").getValue(Int::class.java) ?: 0
+                        viewBinding.taskagotchiEnergyCD.text = characterEnergy.toString()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    showToast("Database Error: ${error.message}")
+                }
+            })
+        }
     }
 
     private fun readTasksData(characterId: String?) {
@@ -185,7 +214,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
         taskData.lastCompletedDate = calendar.time
 
         saveTaskData(taskData)
-
     }
 
     private fun calculateMissedDays(taskData: TaskData) {
