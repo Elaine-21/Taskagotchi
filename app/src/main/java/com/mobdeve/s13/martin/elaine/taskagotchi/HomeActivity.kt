@@ -49,7 +49,12 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("username", username)
             intent.putExtra("userId", userId)
             startActivity(intent)
-            finish()
+        }
+
+        // Set up the button click listener for encyclopedia_btn
+        viewBinding.encyclopediaBtn.setOnClickListener {
+            val intent = Intent(this@HomeActivity, CharacterCollection::class.java)
+            startActivity(intent)
         }
 
         //fetching of data from the firebase users
