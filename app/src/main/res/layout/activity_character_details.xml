@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
         app:layout_constraintHeight_min="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,19 +26,22 @@
         android:id="@+id/taskagotchiNameCD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="71dp"
         android:layout_marginEnd="52dp"
         android:text="Name"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskagotchiPictureCD" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="210dp"
         android:layout_height="110dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
+        android:layout_marginEnd="41dp"
         android:background="@drawable/rounded_corner_two"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/taskagotchiPictureCD"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -122,6 +127,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="331dp"
         android:layout_height="400dp"
         android:layout_marginStart="40dp"
@@ -153,9 +159,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 1 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView28"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <TextView
             android:id="@+id/task1Frequency"
@@ -163,9 +169,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task1CD"
-            app:layout_constraintTop_toBottomOf="@+id/textView28"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <TextView
             android:id="@+id/task1Description"
@@ -174,9 +180,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task1CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task1CD" />
 
         <RadioButton
             android:id="@+id/radioBtnTask1"
@@ -185,10 +191,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/view1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView28"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <View
             android:id="@+id/view1"
@@ -206,9 +212,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 2 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view1"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <TextView
             android:id="@+id/task2Description"
@@ -217,9 +223,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task2CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task2CD" />
 
         <TextView
             android:id="@+id/task2Frequency"
@@ -227,9 +233,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task2CD"
-            app:layout_constraintTop_toBottomOf="@+id/view1"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <RadioButton
             android:id="@+id/radioBtnTask2"
@@ -238,10 +244,10 @@
             android:layout_marginTop="9dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view1"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <View
             android:id="@+id/view2"
@@ -259,9 +265,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 3 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <TextView
             android:id="@+id/task3Description"
@@ -270,9 +276,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task3CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task3CD" />
 
         <TextView
             android:id="@+id/task3Frequency"
@@ -280,9 +286,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task3CD"
-            app:layout_constraintTop_toBottomOf="@id/view2"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@id/view2" />
 
         <RadioButton
             android:id="@+id/radioBtnTask3"
@@ -291,10 +297,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/view3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <View
             android:id="@+id/view3"
@@ -312,9 +318,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 4 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <TextView
             android:id="@+id/task4Description"
@@ -323,9 +329,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task4CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task4CD" />
 
         <TextView
             android:id="@+id/task4Frequency"
@@ -333,9 +339,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task4CD"
-            app:layout_constraintTop_toBottomOf="@+id/view3"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <RadioButton
             android:id="@+id/radioBtnTask4"
@@ -344,10 +350,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/view4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <View
             android:id="@+id/view4"
@@ -365,9 +371,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 5 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <TextView
             android:id="@+id/task5Description"
@@ -376,9 +382,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task5CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task5CD" />
 
         <TextView
             android:id="@+id/task5Frequency"
@@ -386,9 +392,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task5CD"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <RadioButton
             android:id="@+id/radioBtnTask5"
@@ -397,10 +403,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/view5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <View
             android:id="@+id/view5"
@@ -418,9 +424,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:text="Task 6 -"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view5"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <TextView
             android:id="@+id/task6Description"
@@ -429,9 +435,9 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="1dp"
             android:text="Description"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task6CD"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/task6CD" />
 
         <TextView
             android:id="@+id/task6Frequency"
@@ -439,9 +445,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="Frequency"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/task6CD"
-            app:layout_constraintTop_toBottomOf="@+id/view5"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <RadioButton
             android:id="@+id/radioBtnTask6"
@@ -450,10 +456,10 @@
             android:layout_marginTop="9dp"
             android:layout_marginEnd="25dp"
             android:buttonTint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/view6"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view5"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <View
             android:id="@+id/view6"
@@ -468,55 +474,52 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="412dp"
-        android:layout_height="102dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
         android:background="@drawable/dashboard_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <ImageButton
-            android:id="@+id/addTask_redirect"
+            android:id="@+id/additionalTask_btn"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="44dp"
-            android:layout_marginBottom="31dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="54dp"
             android:background="@drawable/circle_border"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/charEvolution_redirect"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toStartOf="@+id/characterEvolution_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/additional_task_icon" />
+            app:layout_constraintVertical_bias="0.050000012"
+            app:srcCompat="@drawable/additional_task" />
 
         <ImageButton
-            android:id="@+id/charEvolution_redirect"
+            android:id="@+id/characterEvolution_btn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/circle_border"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/character_evolution_icon" />
+            app:srcCompat="@drawable/character_evolution"
+            tools:layout_editor_absoluteY="10dp" />
 
         <ImageButton
-            android:id="@+id/home_redirect"
+            android:id="@+id/return_btn"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="44dp"
-            android:layout_marginBottom="31dp"
+            android:layout_marginStart="53dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/circle_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/charEvolution_redirect"
+            app:layout_constraintStart_toEndOf="@+id/characterEvolution_btn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.031"
-            app:srcCompat="@drawable/back_icon" />
+            app:layout_constraintVertical_bias="0.050000012"
+            app:srcCompat="@drawable/undo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

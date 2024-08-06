@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,7 +56,11 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("characterDebuff", selectedCharacter.debuff)
                 val taskIds = selectedCharacter.tasksIDList?: emptyList()
                 intent.putStringArrayListExtra("taskIds", ArrayList(taskIds))
-//                intent.putParcelableArrayListExtra("characterTasks", ArrayList(selectedCharacter.tasks))
+//                val charIds = selectedCharacter.charEvolution?: emptyList()
+//                intent.putStringArrayListExtra("charEvolution", ArrayList(selectedCharacter.charEvolution))
+//                intent.putStringArrayListExtra("charEvolution", ArrayList(selectedCharacter.charEvolution))
+                val charIds = selectedCharacter.charEvolution?: emptyList()
+                intent.putStringArrayListExtra("charIds", ArrayList(charIds))
 
                 taskIds.forEachIndexed { index, taskId ->
                     Log.d("HomeActivity", "Task ID[$index]: $taskId")
@@ -81,6 +86,12 @@ class HomeActivity : AppCompatActivity() {
             onPause()//possible cause of problem when return button on the phone i clicked as it destroys this activity
         }
 
+        viewBinding.signoutBtn.setOnClickListener {
+            val intent = Intent(this@HomeActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         //fetching of data from the firebase users
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (userId != null) {
@@ -89,7 +100,15 @@ class HomeActivity : AppCompatActivity() {
         } else {
             showToast("User ID is null.")
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Log.d("HomeActivity", "Return button clicked")
+                moveTaskToBack(true)
+            }
+        })
     }
+
 
     //fonts
     private fun applyFont() {

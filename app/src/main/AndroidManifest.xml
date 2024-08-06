@@ -25,12 +25,12 @@
         <activity
             android:name=".AdditionalTaskActivity"
             android:exported="false"
-            android:label="AdditionalTasks"
+            android:label="AdditionalTask"
             android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name=".CharacterEvolutionHistoryActivity"
             android:exported="false"
-            android:label="CharacterEvolution"
+            android:label="CharacterEvolutionHistory"
             android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name=".TaskCreationActivity"
