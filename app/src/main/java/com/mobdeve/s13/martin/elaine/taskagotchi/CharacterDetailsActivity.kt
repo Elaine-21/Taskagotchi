@@ -84,6 +84,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
             intent.putStringArrayListExtra("charIds", charIds)
             startActivity(intent)
             onPause()
+//            onStop()
+        }
+
+        viewBinding.returnBtn.setOnClickListener{
+            finish()
         }
         
 
