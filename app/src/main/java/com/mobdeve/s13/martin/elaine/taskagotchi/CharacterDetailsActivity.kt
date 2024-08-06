@@ -68,7 +68,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (taskIds.isNotEmpty()) {
             // Proceed to fetch and display tasks
-            readTasksData()
+            readTasksData(characterId)
         } else {
             // Handle the case where there are no task IDs
             Log.d("CharacterDetailsActivity", "No task IDs to fetch.")
@@ -78,7 +78,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun readTasksData() {
+    private fun readTasksData(characterId: String?) {
         // Map to keep track of task references
         val taskReferences = taskIds.take(6).map { id -> firebaseDatabase.getReference("tasks").child(id) }
 
@@ -89,7 +89,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
                     if (snapshot.exists()) {
                         val taskData = snapshot.getValue(TaskData::class.java)
                         taskData?.let {
-                            bindTaskData(index + 1, it)
+                            bindTaskData(index + 1, it, characterId)
                         }
                     } else {
                         Log.d("CharacterDetailsActivity", "Task data for ID not found: ${reference.key}")
@@ -103,7 +103,26 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveTasktoCharacterData(charID: String?, characterDebuff: String?, characterStatus: String?){
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter")
 
+        // Create a map or data class to hold the character details
+        val characterData = mapOf(
+            "debuff" to characterDebuff,
+            "status" to characterStatus
+        )
+
+        // Save the character data under the given charID
+        taskagotchiData.child(charID!!).updateChildren(characterData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Character Details", "Character updated")
+                } else {
+                    Log.d("Character Details", "Character failed to update")
+                }
+            }
+
+    }
     private fun saveTaskData(taskData: TaskData) {
         var taskDatabaseReference: DatabaseReference = firebaseDatabase.reference.child("tasks")
 
@@ -135,8 +154,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
             calendar.time = lastDate
             when (taskData.frequency) {
                 "Everyday" -> calendar.add(Calendar.DAY_OF_YEAR, 1)
-                "Once a Week" -> calendar.add(Calendar.DAY_OF_YEAR, 2)
-                "Every Other Day" -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+                "Once a Week" -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+                "Every Other Day" -> calendar.add(Calendar.DAY_OF_YEAR, 2)
             }
             Log.d("Character Details", "Last completed Date: ${taskData.lastCompletedDate} -- calendar.time: ${calendar.time}")
             Log.d("Character Details", "${taskData.title} isDone true or false: ${Date().after(calendar.time)}")
@@ -157,20 +176,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         calendar.set(Calendar.MILLISECOND, 0)
         Log.d("Character Details", "Date accomplished ${calendar.time}")
 
-        if(taskData.lastCompletedDate == null){
-            taskData.lastCompletedDate = calendar.time
-        }
-        if (taskData.frequency == "Everyday") {
-            calendar.add(Calendar.DAY_OF_YEAR, 1)
-        } else if (taskData.frequency == "Once a Week") {
-            calendar.add(Calendar.DAY_OF_YEAR, 2)
-        } else if (taskData.frequency == "Every Other Day") {
-            calendar.add(Calendar.DAY_OF_YEAR, 7)
-        }
-
-            taskData.lastCompletedDate = calendar.time
-
-        Log.d("Character Details", "Next date to be accomplished ${calendar.time}")
+        taskData.lastCompletedDate = calendar.time
 
         saveTaskData(taskData)
 
@@ -208,7 +214,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindTaskData(taskNumber: Int, taskData: TaskData) {
+    private fun bindTaskData(taskNumber: Int, taskData: TaskData, characterId: String?) {
 
         val title = taskData.title ?: "No title available"
         val frequency = taskData.frequency ?: "No frequency available"
@@ -378,6 +384,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
         viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "No debuff available"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"
+
+        saveTasktoCharacterData(characterId, characterDebuff, characterStatus)
 
     }
 
