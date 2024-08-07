@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityCharacterDetailsBinding
-import com.mobdeve.s13.martin.elaine.taskagotchi.model.HomeData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
 import java.util.Calendar
 import java.util.Date
@@ -163,7 +162,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTasktoCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?){
+    private fun updateCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?){
         val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
 
         // Create a map or data class to hold the character details
@@ -458,7 +457,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "None"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "Healthy"
 
-        saveTasktoCharacterData(userId,characterId, characterDebuff, characterStatus)
+        updateCharacterData(userId,characterId, characterDebuff, characterStatus)
     }
     private fun showToast(message: String) {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()
