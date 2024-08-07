@@ -71,14 +71,14 @@ class TaskCreationActivity : AppCompatActivity() {
         //
         firebaseDatabase = FirebaseDatabase.getInstance()
         usersReference = firebaseDatabase.reference.child("users")
-        taskaCharacterReference = firebaseDatabase.reference.child("taskagotchiCharacter")
-        taskDatabaseReference = firebaseDatabase.reference.child("tasks")
 
         //
         val username = intent.getStringExtra("username")
         val userId = intent.getStringExtra("userId")
         val charId = intent.getStringExtra("charId")
 
+        taskaCharacterReference = firebaseDatabase.getReference("taskagotchiCharacter/$userId")
+        taskDatabaseReference = firebaseDatabase.getReference("tasks/$charId")
 
 
         //
@@ -94,7 +94,7 @@ class TaskCreationActivity : AppCompatActivity() {
 
 
         viewBinding.addTaskBtn.setOnClickListener{
-            if(taskAdded <= taskQuantity){
+            if(taskAdded < taskQuantity){
                 showAddTaskDialog(taskQuantity, charId)
                 Log.d("TaskCreation", "Task Added (Outside): ${taskAdded}")
             }else{

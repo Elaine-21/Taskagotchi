@@ -36,17 +36,22 @@ class HomeActivity : AppCompatActivity() {
         // Initialize RecyclerView
         viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(this)
         viewBinding.homeRecyclerView.setHasFixedSize(true)
+        // Retrieve data from the Intent
+        val username = intent.getStringExtra("username")
+        val userId = intent.getStringExtra("userId")
 
         //adapter
         homeArrayList = arrayListOf()
         homeAdapter = HomeAdapter(homeArrayList)
         var adapter = homeAdapter
         viewBinding.homeRecyclerView.adapter = adapter
+
         adapter.setOnItemClickListener(object: HomeAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 val selectedCharacter = homeArrayList[position]
 //                Toast.makeText(this@HomeActivity, "You Clicked on item no. $position", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@HomeActivity, CharacterDetailsActivity::class.java)
+                intent.putExtra("userId", userId)
                 intent.putExtra("characterId", selectedCharacter.id)
                 intent.putExtra("characterName", selectedCharacter.name)
                 intent.putExtra("characterPicURL", selectedCharacter.picURL)
@@ -74,9 +79,6 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        // Retrieve data from the Intent
-        val username = intent.getStringExtra("username")
-        val userId = intent.getStringExtra("userId")
 
         viewBinding.addCharacterBtn.setOnClickListener {
             val intent = Intent(this@HomeActivity, CharacterCreation::class.java)
@@ -131,7 +133,7 @@ class HomeActivity : AppCompatActivity() {
                         if (ids.isNotEmpty()) {
                             // Fetch each character's data
                             for (characterId in ids) {
-                                getCharacterData(characterId)
+                                getCharacterData(userData.id, characterId)
                             }
                         } else {
                             showToast("No characters found for this user.")
@@ -149,8 +151,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     //fetching the data that is the same in the taskagotchiCharacter
-    private fun getCharacterData(characterId: String) {
-        characterReference = firebaseDatabase.getReference("taskagotchiCharacter").child(characterId)
+    private fun getCharacterData(userID: String?, characterId: String) {
+        characterReference = firebaseDatabase.getReference("taskagotchiCharacter/$userID").child(characterId)
         characterReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {

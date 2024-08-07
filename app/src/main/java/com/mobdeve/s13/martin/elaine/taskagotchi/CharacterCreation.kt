@@ -38,7 +38,6 @@ class CharacterCreation : AppCompatActivity() {
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         usersReference = firebaseDatabase.reference.child("users")
-        taskaCharacterReference = firebaseDatabase.reference.child("taskagotchiCharacter")
 
         updateBabytaskagotchi()
 
@@ -47,6 +46,7 @@ class CharacterCreation : AppCompatActivity() {
         val userId = intent.getStringExtra("userId")
 
         val radioGroup: RadioGroup = findViewById(R.id.radioGroup)
+        taskaCharacterReference = firebaseDatabase.getReference("taskagotchiCharacter/$userId")
 
 
         viewBinding.createBtn.setOnClickListener{
@@ -55,11 +55,6 @@ class CharacterCreation : AppCompatActivity() {
             var charUsername = viewBinding.charUsernameInput.text.toString()
             var charURLPic = "baby_${selectedColor}_${selectedGender}"
 
-
-//             Logging the values to check if they are correct
-//            Log.d("CharacterCreation", "Username: $charUsername")
-//            Log.d("CharacterCreation", "Difficulty: $charDifficulty")
-//            Log.d("CharacterCreation", "Character Image: $charURLPic")
 
 
             if(charUsername != "Character Username" && charDifficulty != null && userId != null && username != null){

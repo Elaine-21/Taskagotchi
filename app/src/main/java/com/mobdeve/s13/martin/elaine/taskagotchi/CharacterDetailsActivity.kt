@@ -30,6 +30,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityCharacterDetailsBinding
     private val missedDaysList = mutableListOf<Int>()
     private var characterId : String? = null
+    private var userId: String? = null
     private var characterEnergy : Int? = null
 
 
@@ -38,6 +39,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        userId = this.intent.getStringExtra("userId")
         characterId = this.intent.getStringExtra("characterId")
         val characterName = this.intent.getStringExtra("characterName")
         val characterPicURL = this.intent.getStringExtra("characterPicURL")
@@ -77,6 +79,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             intent.putExtra("characterId", characterId)
             intent.putExtra("taskIdsSize", taskIds.size)
             intent.putExtra("energy", characterEnergy)
+            intent.putExtra("userId", userId)
             startActivity(intent)
             onPause()
         }
@@ -100,7 +103,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (taskIds.isNotEmpty()) {
             // Proceed to fetch and display tasks
-            readTasksData(characterId)
+            readTasksData(characterId, userId)
         } else {
             // Handle the case where there are no task IDs
             Log.d("CharacterDetailsActivity", "No task IDs to fetch.")
@@ -117,8 +120,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private fun fetchCharacterData() {
         if (characterId != null) {
             // Assuming you have a reference to your Firebase database
-            val characterRef = firebaseDatabase.getReference("taskagotchiCharacter/$characterId")
+            val characterRef = firebaseDatabase.getReference("taskagotchiCharacter/$userId/$characterId")
             Log.d("onResume", "characterID: ${characterId}")
+            Log.d("onResume", "userId: ${userId}")
             characterRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -134,9 +138,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun readTasksData(characterId: String?) {
+    private fun readTasksData(characterId: String?, userId: String?) {
         // Map to keep track of task references
-        val taskReferences = taskIds.take(6).map { id -> firebaseDatabase.getReference("tasks").child(id) }
+        val taskReferences = taskIds.take(6).map { id -> firebaseDatabase.getReference("tasks/$characterId").child(id) }
 
         // Read data for each task
         taskReferences.forEachIndexed { index, reference ->
@@ -145,7 +149,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
                     if (snapshot.exists()) {
                         val taskData = snapshot.getValue(TaskData::class.java)
                         taskData?.let {
-                            bindTaskData(index + 1, it, characterId)
+                            bindTaskData(index + 1, it, characterId, userId)
                         }
                     } else {
                         Log.d("CharacterDetailsActivity", "Task data for ID not found: ${reference.key}")
@@ -159,8 +163,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTasktoCharacterData(charID: String?, characterDebuff: String?, characterStatus: String?){
-        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter")
+    private fun saveTasktoCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?){
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
 
         // Create a map or data class to hold the character details
         val characterData = mapOf(
@@ -180,7 +184,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     }
     private fun saveTaskData(taskData: TaskData) {
-        var taskDatabaseReference: DatabaseReference = firebaseDatabase.reference.child("tasks")
+        var taskDatabaseReference: DatabaseReference = firebaseDatabase.reference.child("tasks/$characterId")
 
         taskDatabaseReference.child(taskData.taskID!!).setValue(taskData)
             .addOnCompleteListener { task ->
@@ -270,7 +274,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindTaskData(taskNumber: Int, taskData: TaskData, characterId: String?) {
+    private fun bindTaskData(taskNumber: Int, taskData: TaskData, characterId: String?, userId: String?) {
 
         val title = taskData.title ?: "No title available"
         val frequency = taskData.frequency ?: "No frequency available"
@@ -297,7 +301,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask1.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
                 }
@@ -321,7 +325,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask2.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
 
@@ -346,7 +350,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask3.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
 
@@ -371,7 +375,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask4.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
                 }
@@ -395,7 +399,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask5.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
                 }
@@ -419,20 +423,20 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
                             viewBinding.radioBtnTask6.isChecked = true
                             updateTaskStatus(taskData)
-                            updateMissedDays(characterId)
+                            updateMissedDays(userId, characterId)
                         }
                     }
                 }
             }
         }
 
-        updateMissedDays(characterId)
+        updateMissedDays(userId, characterId)
 
 
     }
 
 
-    private fun updateMissedDays(characterId:String?){
+    private fun updateMissedDays(userId: String?, characterId:String?){
         var characterDebuff: String? = null
         var characterStatus: String? = null
         val maxMissedDays = missedDaysList.maxOrNull() ?: 0
@@ -454,7 +458,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "None"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "Healthy"
 
-        saveTasktoCharacterData(characterId, characterDebuff, characterStatus)
+        saveTasktoCharacterData(userId,characterId, characterDebuff, characterStatus)
     }
     private fun showToast(message: String) {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()

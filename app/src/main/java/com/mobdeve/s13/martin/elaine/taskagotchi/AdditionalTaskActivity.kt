@@ -51,6 +51,7 @@ class AdditionalTaskActivity : AppCompatActivity() {
         additionalTask = firebaseDatabase.reference.child("additionalTasks")
 
         val charId = intent.getStringExtra("characterId")
+        val userId = intent.getStringExtra("userId")
         taskQuantity = intent.getIntExtra("taskIdsSize", 0)
         energy = intent.getIntExtra("energy", 0)
 
@@ -65,14 +66,14 @@ class AdditionalTaskActivity : AppCompatActivity() {
         }
 
         viewBinding.exitAddtnTaskBtn.setOnClickListener{
-            updateEnergy(charId)
+            updateEnergy(userId,charId)
             finish()
         }
 
     }
 
-    private fun updateEnergy(charID: String?){
-        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter")
+    private fun updateEnergy(userId: String?, charID: String?){
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
 
         // Create a map or data class to hold the character details
         val characterData = mapOf(
