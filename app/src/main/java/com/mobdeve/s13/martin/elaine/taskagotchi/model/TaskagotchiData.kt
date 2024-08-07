@@ -16,5 +16,6 @@ data class TaskagotchiData(
     var debuff: String? = "none",
     var levelUpDate: Date? = null,
     var charEvolution: MutableList<String> = mutableListOf(),
-    var tasksIDList: List<String>? = null
+    var tasksIDList: List<String>? = null,
+    var energyRestorationDate: Date? = null
 )

@@ -75,10 +75,25 @@ class AdditionalTaskActivity : AppCompatActivity() {
     private fun updateEnergy(userId: String?, charID: String?){
         val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
 
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
         // Create a map or data class to hold the character details
+
+        var restoreDate = calendar.time
+        if(energy == 50){
+            restoreDate = null
+        }else{
+            restoreDate = calendar.time
+        }
         val characterData = mapOf(
-            "energy" to energy
+            "energy" to energy,
+            "energyRestorationDate" to restoreDate
         )
+
 
         // Save the character data under the given charID
         taskagotchiData.child(charID!!).updateChildren(characterData)
