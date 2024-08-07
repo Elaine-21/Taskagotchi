@@ -19,15 +19,55 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.0" />
 
+    <View
+        android:id="@+id/view6"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <View
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toStartOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.45" />
+
+    <View
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toEndOf="@+id/view6"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.45" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="EVOLVE YOUR TASKAGOTCHI"
         android:fontFamily="@font/luckiest_guy"
+        android:gravity="center_horizontal"
+        android:shadowColor="#000000"
+        android:shadowDx="15"
+        android:shadowDy="8"
+        android:shadowRadius="10"
+        android:text="EVOLVE YOUR TASKAGOTCHI"
         android:textColor="#FBD86A"
-        android:textAlignment="center"
+        android:textColorHighlight="#00DF1717"
+        android:textColorHint="#00B12323"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,9 +133,9 @@
     <Button
         android:id="@+id/evolve_button"
         android:layout_width="120dp"
-        android:layout_height="35dp"
+        android:layout_height="48dp"
         android:layout_marginTop="22dp"
-        android:background="#165A97"
+        android:background="@drawable/blue_nameplate_shape"
         android:text="Evolve Now"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
