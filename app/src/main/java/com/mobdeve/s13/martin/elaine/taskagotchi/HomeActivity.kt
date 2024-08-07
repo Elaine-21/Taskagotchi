@@ -14,7 +14,10 @@ import com.google.firebase.database.*
 import com.mobdeve.s13.martin.elaine.taskagotchi.adapter.HomeAdapter
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityHomeBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.HomeData
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
 
@@ -24,6 +27,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var homeArrayList: ArrayList<HomeData>
     private lateinit var viewBinding: ActivityHomeBinding
     private lateinit var homeAdapter: HomeAdapter
+    private val missedDaysList = mutableListOf<Int>()
+    private var userId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,8 +163,10 @@ class HomeActivity : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val homeData = snapshot.getValue(HomeData::class.java)
                     homeData?.let {
-                        homeArrayList.add(it)
-                        homeAdapter.notifyDataSetChanged() // signals change to the adapter
+//                        debuffStatus(it)
+                        homeArrayList.add(it)//i think i need to change it here
+                        debuffStatus(it)
+                        //homeAdapter.notifyDataSetChanged() // signals change to the adapter
                     } ?: showToast("Taskagotchi data is null.")
                 } else {
                     showToast("Character data does not exist.")
@@ -170,6 +177,122 @@ class HomeActivity : AppCompatActivity() {
                 showToast("Database Error: ${error.message}")
             }
         })
+    }
+
+
+    //what if i update it first then do the homeadapter stuff
+    private fun debuffStatus(homeData: HomeData) {
+        val tasksIDList = homeData.tasksIDList
+        val characterId = homeData.id
+
+        if (!tasksIDList.isNullOrEmpty() && characterId != null) {
+            missedDaysList.clear()  // Clear the list before populating it
+
+            for (taskId in tasksIDList) {
+                val taskReference = firebaseDatabase.getReference("tasks/$characterId").child(taskId)
+                taskReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val taskData = snapshot.getValue(TaskData::class.java)
+                            taskData?.let {
+                                calculateMissedDays(it)
+                                updateMissedDays(userId, characterId, homeData)
+                                homeAdapter.notifyDataSetChanged()
+                            }
+                        } else {
+                            showToast("Task data does not exist for task ID: $taskId")
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        showToast("Database Error: ${error.message}")
+                    }
+                })
+            }
+        } else {
+            showToast("No tasks found for this character.")
+        }
+    }
+
+    private fun calculateMissedDays(taskData: TaskData) {
+        if (taskData.lastCompletedDate == null) {
+            return
+        }
+
+        val calendar = Calendar.getInstance()
+        val currentDate = calendar.time
+        calendar.time = taskData.lastCompletedDate
+
+        if (calendar.time.before(currentDate)) {
+            when (taskData.frequency) {
+                "Everyday" -> calendar.add(Calendar.DAY_OF_YEAR, 1)
+                "Once a Week" -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+                "Every Other Day" -> calendar.add(Calendar.DAY_OF_YEAR, 2)
+            }
+
+            val missedCount = currentDate.time - calendar.time.time
+            val days = TimeUnit.MILLISECONDS.toDays(missedCount)
+
+            Log.d("Debuff Calculation", "currentDate: ${currentDate.time} --- dateToday: ${calendar.time.time}")
+            Log.d("Debuff Calculation", "Missed ${days.toInt()} times since last completion.")
+
+            taskData.missCntr = days.toInt()
+            missedDaysList.add(days.toInt())
+        }
+    }
+
+    private fun updateMissedDays(userId: String?, characterId: String?, homeData: HomeData) {
+        var characterDebuff: String? = null
+        var characterStatus: String? = null
+        val maxMissedDays = missedDaysList.maxOrNull() ?: 0
+
+        Log.d("Debuff Calculation", "Highest number of missed days: $maxMissedDays")
+
+        when (maxMissedDays) {
+            0 -> {
+                characterDebuff = "None"
+                characterStatus = "Healthy"
+            }
+            1 -> {
+                characterDebuff = "x0.30"
+                characterStatus = "Weak"
+            }
+            2 -> {
+                characterDebuff = "x0.70"
+                characterStatus = "Sick"
+            }
+            else -> {
+                characterDebuff = "x1.00"
+                characterStatus = "Debuffed"
+            }
+        }
+
+        homeData.debuff = characterDebuff ?: "None"
+        homeData.status = characterStatus ?: "Healthy"
+
+        updateCharacterData(userId, characterId, characterDebuff, characterStatus)
+    }
+
+    private fun updateCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?) {
+        if (userId == null || charID == null) {
+            Log.d("Character Details", "userId or charID is null")
+            return
+        }
+
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
+
+        val characterData = mapOf(
+            "debuff" to characterDebuff,
+            "status" to characterStatus
+        )
+
+        taskagotchiData.child(charID).updateChildren(characterData).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("Character Details", "Character updated successfully: $charID")
+            } else {
+                Log.d("Character Details", "Character update failed: ${task.exception?.message}")
+            }
+        }
     }
 
     //function to display toast
