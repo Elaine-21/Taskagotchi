@@ -103,7 +103,8 @@ class HomeActivity : AppCompatActivity() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         if (userId != null) {
             databaseReference = firebaseDatabase.getReference("users").child(userId)
-            getCharacterId()
+//            homeArrayList.clear()
+//            getCharacterId()
         } else {
             showToast("User ID is null.")
         }
@@ -114,6 +115,13 @@ class HomeActivity : AppCompatActivity() {
                 moveTaskToBack(true)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        homeArrayList.clear()
+        getCharacterId() // This method will fetch and update the character's data
+
     }
 
 
@@ -137,6 +145,7 @@ class HomeActivity : AppCompatActivity() {
                     charactersIdList?.let { ids ->
                         if (ids.isNotEmpty()) {
                             // Fetch each character's data
+                            homeArrayList.clear()
                             for (characterId in ids) {
                                 getCharacterData(userData.id, characterId)
                             }
@@ -166,7 +175,7 @@ class HomeActivity : AppCompatActivity() {
 //                        debuffStatus(it)
                         homeArrayList.add(it)//i think i need to change it here
                         debuffStatus(it)
-                        //homeAdapter.notifyDataSetChanged() // signals change to the adapter
+                        homeAdapter.notifyDataSetChanged() // signals change to the adapter
                     } ?: showToast("Taskagotchi data is null.")
                 } else {
                     showToast("Character data does not exist.")
