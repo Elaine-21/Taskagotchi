@@ -12,10 +12,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityCharacterDetailsBinding
-import com.mobdeve.s13.martin.elaine.taskagotchi.model.HomeData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 //import com.mobdeve.s13.martin.elaine.taskagotchi.R.layout.activity_character_details
@@ -32,6 +33,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private var characterId : String? = null
     private var userId: String? = null
     private var characterEnergy : Int? = null
+    private var characterStreak: Int? = null
+    private var characterStatus: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +46,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         characterId = this.intent.getStringExtra("characterId")
         val characterName = this.intent.getStringExtra("characterName")
         val characterPicURL = this.intent.getStringExtra("characterPicURL")
-        var characterStatus = this.intent.getStringExtra("characterStatus")
-        val characterStreak = this.intent.getIntExtra("characterStreak", 0)
+        characterStatus = this.intent.getStringExtra("characterStatus")
+        characterStreak = this.intent.getIntExtra("characterStreak", 0)
         characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
         var characterDebuff = this.intent.getStringExtra("characterDebuff")
         taskIds = intent.getStringArrayListExtra("taskIds") ?: arrayListOf()
@@ -98,9 +101,10 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding.returnBtn.setOnClickListener{
             finish()
         }
-
-
         firebaseDatabase = FirebaseDatabase.getInstance()
+
+        checkStreak()
+
         if (taskIds.isNotEmpty()) {
             // Proceed to fetch and display tasks
             readTasksData(characterId, userId)
@@ -163,7 +167,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTasktoCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?){
+    private fun updateCharacterData(userId: String?, charID: String?, characterDebuff: String?, characterStatus: String?){
         val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
 
         // Create a map or data class to hold the character details
@@ -279,7 +283,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val title = taskData.title ?: "No title available"
         val frequency = taskData.frequency ?: "No frequency available"
         val description = taskData.description ?: "No description available"
-
 
         when (taskNumber) {
             1 -> {
@@ -432,9 +435,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         updateMissedDays(userId, characterId)
 
-
     }
-
 
     private fun updateMissedDays(userId: String?, characterId:String?){
         var characterDebuff: String? = null
@@ -458,9 +459,92 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "None"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "Healthy"
 
-        saveTasktoCharacterData(userId,characterId, characterDebuff, characterStatus)
+        updateCharacterData(userId,characterId, characterDebuff, characterStatus)
     }
     private fun showToast(message: String) {
         Toast.makeText(this@CharacterDetailsActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkStreak(){
+        if(characterStatus == "Healthy"){
+            updateStreak(1)
+        }else{
+            updateStreak(2)
+        }
+    }
+    private fun updateStreak(option: Int){
+        if(option == 1) {
+            val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId/$characterId")
+            taskagotchiData.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val creationDate =
+                        dataSnapshot.child("creationDate").getValue(Date::class.java)
+                        if (creationDate != null) {
+                            val currentDate = Calendar.getInstance().time
+                            val diffInMillis = currentDate.time - creationDate.time
+                            val diffInDays = diffInMillis / (1000 * 60 * 60 * 24)
+                            Log.d("Streak", "diffInDays: ${diffInDays}")
+                            Log.d("Streak", "creationDate: ${creationDate}")
+
+                            if (diffInDays >= 7) {
+                                characterStreak = characterStreak?.plus(1)
+                                Log.d("Streak", "CharacterStreak: ${characterStreak}")
+                                updateStreak()
+                                updateCreationDate()
+
+                            }
+                        }
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    showToast("Database Error: ${databaseError.message}")
+                }
+            })
+        }else{
+            updateCreationDate()
+        }
+
+    }
+    private fun updateCreationDate(){
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
+        val date = Calendar.getInstance()
+        date.set(Calendar.HOUR_OF_DAY, 0)
+        date.set(Calendar.MINUTE, 0)
+        date.set(Calendar.SECOND, 0)
+        date.set(Calendar.MILLISECOND, 0)
+
+
+        val characterData = mapOf(
+            "creationDate" to date.time
+        )
+
+        // Save the character data under the given charID
+        taskagotchiData.child(characterId!!).updateChildren(characterData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Character Details", "CreationDate updated")
+                } else {
+                    Log.d("Character Details", "CreationDate failed to update")
+                }
+            }
+    }
+
+    private fun updateStreak(){
+        viewBinding.taskagotchiStreakCD.text = characterStreak.toString()
+
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
+
+        val characterData = mapOf(
+            "streak" to characterStreak
+        )
+
+        // Save the character data under the given charID
+        taskagotchiData.child(characterId!!).updateChildren(characterData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Character Details", "CreationDate updated")
+                } else {
+                    Log.d("Character Details", "CreationDate failed to update")
+                }
+            }
     }
 }
