@@ -1,5 +1,6 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.app.Application
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,6 +13,8 @@ import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -30,6 +33,9 @@ class LoginActivity : ComponentActivity() {
         //Creating splash screen or loading screen
         Thread.sleep(3000)
         installSplashScreen()
+//
+//        FacebookSdk.sdkInitialize(applicationContext)
+//        AppEventsLogger.activateApp(applicationContext as Application)
 
         val viewBinding: ActivityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)

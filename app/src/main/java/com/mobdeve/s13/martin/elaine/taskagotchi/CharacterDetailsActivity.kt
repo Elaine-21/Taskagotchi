@@ -2,6 +2,7 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.share.model.ShareHashtag
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.widget.ShareDialog
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -45,10 +53,10 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
         firebaseDatabase = FirebaseDatabase.getInstance()
 
         userId = this.intent.getStringExtra("userId")
@@ -586,7 +594,30 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
 
         shareBtn.setOnClickListener {
+            characterPicURL?.let {
+                val resId = resources.getIdentifier(it, "drawable", packageName)
+                if (resId != 0) {
+                    val drawable = resources.getDrawable(resId, null)
+                    val bitmap = (drawable as BitmapDrawable).bitmap
 
+                    val sharePhoto = SharePhoto.Builder()
+                        .setBitmap(bitmap)
+                        .setCaption("Character Unlocked ${characterStreak} streak/s!")
+                        .build()
+
+                    val shareContent = SharePhotoContent.Builder()
+                        .addPhoto(sharePhoto)
+                        .setShareHashtag(ShareHashtag.Builder().setHashtag("#Taskagotchi\n#Streak${characterStreak}").build())
+                        .build()
+
+                    val shareDialog = ShareDialog(this)
+                    if (ShareDialog.canShow(SharePhotoContent::class.java)) {
+                        shareDialog.show(shareContent)
+                    }
+                } else {
+                    showToast("Image not found")
+                }
+            }
         }
 
         dialog.show()
