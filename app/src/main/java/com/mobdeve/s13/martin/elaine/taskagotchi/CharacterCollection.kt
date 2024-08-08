@@ -31,9 +31,7 @@ class CharacterCollection : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         binding.encyclopediaBackBtn.setOnClickListener{
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-
+            finish()
         }
 
     }

@@ -93,6 +93,11 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        viewBinding.encyclopediaBtn.setOnClickListener {
+            val intent = Intent(this@HomeActivity, CharacterCollection::class.java)
+            startActivity(intent)
+            onPause()
+        }
 
         //fetching of data from the firebase users
         firebaseDatabase = FirebaseDatabase.getInstance()
