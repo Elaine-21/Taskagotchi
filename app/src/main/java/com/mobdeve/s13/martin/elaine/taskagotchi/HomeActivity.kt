@@ -167,7 +167,7 @@ class HomeActivity : AppCompatActivity() {
                         homeAdapter.notifyDataSetChanged() // signals change to the adapter
                     } ?: showToast("Taskagotchi data is null.")
                 } else {
-                    showToast("Character data does not exist.")
+//                    showToast("Character data does not exist.")
                 }
             }
 
