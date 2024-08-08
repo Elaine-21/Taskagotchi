@@ -121,21 +121,36 @@ class HomeActivity : AppCompatActivity() {
 
         //backend update of debuff and status
         Log.d("HomeActivity_DEB", "user ID: $userId")
-        getCharacterIdForDebuffStatus(userId)
+        getCharacterIdForDebuffStatusEnergy(userId)
     }
 
     override fun onResume() {
         super.onResume()
         getCharacterId()
-//uncomment later
     }
 
-    //val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
-    //characterEnergy = snapshot.child("energy").getValue(Int::class.java) ?: 0
-    //databaseReference = firebaseDatabase.getReference("users").child(userId)
+    private fun updateEnergy(charID: String?, charData: HomeData){
+        Log.d("HomeActivity_UE", "charID: $charID")
 
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
 
-    private fun getCharacterIdForDebuffStatus(userId: String?){
+        val today = calendar.time
+
+        charData.energyRestorationDate?.let { restorationDate ->
+            if (!restorationDate.after(today)) {
+                if (charID != null) {
+                    taskagotchiReference.child(charID).child("energy").setValue(50)
+                    Log.d("HomeActivity_UE", "Energy restored to 50 for character ID: $charID")
+                }
+            }
+        }
+    }
+
+    private fun getCharacterIdForDebuffStatusEnergy(userId: String?){
         Log.d("HomeActivity_DEB", "user ID: $userId")
         taskagotchiReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -145,6 +160,8 @@ class HomeActivity : AppCompatActivity() {
                         val characterData = characterSnapshot.getValue(HomeData::class.java)
                         Log.d("HomeActivity_DEB", "Character ID: $characterId, Data: $characterData")
                         if (characterId != null && characterData != null) {
+                            Log.d("HomeActivity_UE", "updateEnergy")
+                            updateEnergy(characterId, characterData)
                             val tasksIDList = characterData.tasksIDList
                             Log.d("HomeActivity_DEB", "tasksIDList: $tasksIDList")
 
@@ -260,26 +277,8 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
-//        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")
-////        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId").child(charID)
-//
-//        val characterData = mapOf(
-//            "debuff" to characterDebuff,
-//            "status" to characterStatus
-//        )
-
         taskagotchiReference.child(charID).child("debuff").setValue(characterDebuff)
         taskagotchiReference.child(charID).child("status").setValue(characterStatus)
-
-//        taskagotchiData.child(charID).updateChildren(characterData).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                Log.d("Character Details", "Character updated successfully: $charID")
-//            } else {
-//                Log.d("Character Details", "Character update failed: ${task.exception?.message}")
-//            }
-//        }
-//        missedDaysList.clear()
-//        Log.d("HomeActivity_DEB", "clearing missEdDaysList")
     }
 
     //getting the data inside the user charactersIdList then passing it
