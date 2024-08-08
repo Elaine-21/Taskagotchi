@@ -3,11 +3,13 @@ package com.mobdeve.s13.martin.elaine.taskagotchi
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ItemCharacterBinding
+import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterCollection
 
 class CharacterAdapter(
-    private val characters: List<Character>,
-    private val onCharacterClick: (Character) -> Unit
+    private val characters: List<CharacterCollection>,
+    private val onCharacterClick: (CharacterCollection) -> Unit
 ) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
@@ -23,17 +25,18 @@ class CharacterAdapter(
     override fun getItemCount() = characters.size
 
     inner class CharacterViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(character: Character) {
-            // Set image or silhouette based on unlock status
+        fun bind(character: CharacterCollection) {
             if (character.isUnlocked) {
-                binding.characterImage.setImageResource(character.imageResId)
+                Glide.with(binding.root.context)
+                    .load(character.imageResId) // Ensure this is a valid URL or resource
+                    .into(binding.characterImage)
             } else {
-                binding.characterImage.setImageResource(R.drawable.baseline_logout_24)
+                Glide.with(binding.root.context)
+                    .load(R.drawable.baseline_logout_24) // Placeholder or locked image
+                    .into(binding.characterImage)
             }
 
             binding.root.setOnClickListener { onCharacterClick(character) }
         }
     }
 }
-
-data class Character(val id: Int, val imageResId: Int, val isUnlocked: Boolean)
