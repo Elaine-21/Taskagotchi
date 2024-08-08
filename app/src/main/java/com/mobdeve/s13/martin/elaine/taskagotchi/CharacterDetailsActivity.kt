@@ -42,6 +42,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
         viewBinding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        checkStreak()
+
         userId = this.intent.getStringExtra("userId")
         characterId = this.intent.getStringExtra("characterId")
         val characterName = this.intent.getStringExtra("characterName")
@@ -95,15 +98,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
             intent.putStringArrayListExtra("charIds", charIds)
             startActivity(intent)
             onPause()
-//            onStop()
         }
 
         viewBinding.returnBtn.setOnClickListener{
             finish()
         }
-        firebaseDatabase = FirebaseDatabase.getInstance()
-
-        checkStreak()
 
         if (taskIds.isNotEmpty()) {
             // Proceed to fetch and display tasks
@@ -435,7 +434,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         updateMissedDays(userId, characterId)
 
+
     }
+
 
     private fun updateMissedDays(userId: String?, characterId:String?){
         var characterDebuff: String? = null
