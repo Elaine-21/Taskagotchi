@@ -1,9 +1,15 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -35,6 +41,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private var characterEnergy : Int? = null
     private var characterStreak: Int? = null
     private var characterStatus: String? = null
+    private var characterPicURL: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +50,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         firebaseDatabase = FirebaseDatabase.getInstance()
-        checkStreak()
 
         userId = this.intent.getStringExtra("userId")
         characterId = this.intent.getStringExtra("characterId")
         val characterName = this.intent.getStringExtra("characterName")
-        val characterPicURL = this.intent.getStringExtra("characterPicURL")
+        characterPicURL = this.intent.getStringExtra("characterPicURL")
         characterStatus = this.intent.getStringExtra("characterStatus")
         characterStreak = this.intent.getIntExtra("characterStreak", 0)
         characterEnergy = this.intent.getIntExtra("characterEnergy", 0)
@@ -66,11 +72,14 @@ class CharacterDetailsActivity : AppCompatActivity() {
         Log.d("CharacterDetailsActivity", "Received Task IDs: $taskIds")
         Log.d("CharacterDetailsActivity", "Received character IDs: $charIds")
 
+        checkStreak()
+
         viewBinding.taskagotchiNameCD.text = characterName ?: "No name available"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"
         viewBinding.taskagotchiStreakCD.text = characterStreak.toString()
         viewBinding.taskagotchiEnergyCD.text = characterEnergy.toString()
         viewBinding.taskagotchiDebuffCD.text = characterDebuff ?: "No debuff available"
+
         characterPicURL?.let {
             val resId = resources.getIdentifier(it, "drawable", packageName)
             if (resId != 0) {
@@ -492,7 +501,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
                                 Log.d("Streak", "CharacterStreak: ${characterStreak}")
                                 updateStreak()
                                 updateCreationDate()
-
+                                showStreakDialogBox()
                             }
                         }
                 }
@@ -547,5 +556,40 @@ class CharacterDetailsActivity : AppCompatActivity() {
                     Log.d("Character Details", "CreationDate failed to update")
                 }
             }
+    }
+
+    private fun showStreakDialogBox(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_share_streak)
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val exitBtn = dialog.findViewById<ImageButton>(R.id.exitBtn)
+        val text = dialog.findViewById<TextView>(R.id.text)
+        val shareBtn = dialog.findViewById<Button>(R.id.shareBtn)
+        text.setText("Congratulations on reaching ${characterStreak} streaks on task completion! Keep up the good work!")
+
+        characterPicURL?.let {
+            val resId = resources.getIdentifier(it, "drawable", packageName)
+            if (resId != 0) {
+                dialog.findViewById<ImageView>(R.id.charImage).setImageResource(resId)
+            } else {
+                showToast("Image not found")
+            }
+        }
+
+        exitBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        shareBtn.setOnClickListener {
+
+        }
+
+        dialog.show()
+
     }
 }
