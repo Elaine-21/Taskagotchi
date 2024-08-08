@@ -17,6 +17,7 @@ import com.mobdeve.s13.martin.elaine.taskagotchi.model.HomeData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.TaskData
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
 import java.util.Calendar
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
@@ -126,7 +127,7 @@ class HomeActivity : AppCompatActivity() {
 
         //backend update of debuff and status
         Log.d("HomeActivity_DEB", "user ID: $userId")
-        getCharacterIdForDebuffStatusEnergy(userId)
+        getCharacterIdForDebuffStatusEnergyStreak(userId)
     }
 
     override fun onResume() {
@@ -155,7 +156,68 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCharacterIdForDebuffStatusEnergy(userId: String?){
+    //    private fun checkStreak(userId: String?, characterId: String?, charData:HomeData){
+//        if(charData.status == "Healthy"){
+//            updateStreak(1, userId, characterId, charData)
+//        }else{
+//            updateStreak(2, userId, characterId, charData)
+//        }
+//    }
+    private fun updateStreak(/*option: Int,*/ userId: String?, characterId: String?, charData: HomeData){
+//        if(option == 1) {
+        val dateCreation = charData.creationDate
+        if(charData.status == "Healthy") {
+            if (dateCreation != null) {
+                val currentDate = Calendar.getInstance().time
+                val diffInMillis = currentDate.time - dateCreation.time
+                val diffInDays = diffInMillis / (1000 * 60 * 60 * 24)
+                Log.d("Streak", "diffInDays: $diffInDays")
+                Log.d("Streak", "creationDate: $dateCreation")
+
+                var charStreak =charData.streak//added
+
+                if (diffInDays >= 7) {
+                    charStreak = charStreak?.plus(1)
+                    Log.d("Streak", "CharacterStreak: $charStreak")
+
+
+                    if (characterId != null) {
+                        taskagotchiReference.child(characterId).child("streak").setValue(charStreak)
+                    }
+
+                    updateCreationDate(userId, characterId)
+                }
+            }
+        }else{
+            updateCreationDate(userId, characterId)
+        }
+
+    }
+    private fun updateCreationDate(userId: String?, characterId: String?){
+        val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId")//cause for problems if more than 1 item in the recyclerView
+        val date = Calendar.getInstance()
+        date.set(Calendar.HOUR_OF_DAY, 0)
+        date.set(Calendar.MINUTE, 0)
+        date.set(Calendar.SECOND, 0)
+        date.set(Calendar.MILLISECOND, 0)
+
+
+        val characterData = mapOf(
+            "creationDate" to date.time
+        )
+
+        // Save the character data under the given charID
+        taskagotchiData.child(characterId!!).updateChildren(characterData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Character Details", "CreationDate updated")
+                } else {
+                    Log.d("Character Details", "CreationDate failed to update")
+                }
+            }
+    }
+
+    private fun getCharacterIdForDebuffStatusEnergyStreak(userId: String?){
         Log.d("HomeActivity_DEB", "user ID: $userId")
         taskagotchiReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -167,6 +229,8 @@ class HomeActivity : AppCompatActivity() {
                         if (characterId != null && characterData != null) {
                             Log.d("HomeActivity_UE", "updateEnergy")
                             updateEnergy(characterId, characterData)
+//                            checkStreak(userId, characterId, characterData)
+                            updateStreak(userId, characterId, characterData)
                             val tasksIDList = characterData.tasksIDList
                             Log.d("HomeActivity_DEB", "tasksIDList: $tasksIDList")
 

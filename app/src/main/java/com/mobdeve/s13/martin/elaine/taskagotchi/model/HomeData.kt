@@ -17,5 +17,6 @@ data class HomeData(
     var levelUpDate: Date? = null,
     var charEvolution: List<String>? = null,//var charEvolution: MutableList<String> = mutableListOf(),
     var tasksIDList: List<String>? = null,
-    var energyRestorationDate: Date? = null
+    var energyRestorationDate: Date? = null,
+    var creationDate: Date? = null
 )
