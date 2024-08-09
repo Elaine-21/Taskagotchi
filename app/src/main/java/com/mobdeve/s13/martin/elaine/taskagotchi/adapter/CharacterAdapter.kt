@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ItemCharacterBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.CharacterCollection
+import com.mobdeve.s13.martin.elaine.taskagotchi.util.CharacterDrawableMapper
 
 class CharacterAdapter(
     private val characters: List<CharacterCollection>,
@@ -26,17 +27,19 @@ class CharacterAdapter(
 
     inner class CharacterViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(character: CharacterCollection) {
-            if (character.isUnlocked) {
-                Glide.with(binding.root.context)
-                    .load(character.imageResId) // Ensure this is a valid URL or resource
-                    .into(binding.characterImage)
+            val context = binding.root.context
+            val imageResId = if (character.isUnlocked) {
+                CharacterDrawableMapper.getDrawableResId(character.id)
             } else {
-                Glide.with(binding.root.context)
-                    .load(R.drawable.baseline_logout_24) // Placeholder or locked image
-                    .into(binding.characterImage)
+                R.drawable.black_egg_question_mark // Default locked drawable
             }
+
+            Glide.with(context)
+                .load(imageResId)
+                .into(binding.characterImage)
 
             binding.root.setOnClickListener { onCharacterClick(character) }
         }
     }
 }
+
