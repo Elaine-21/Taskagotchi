@@ -71,7 +71,8 @@ class CharacterCreation : AppCompatActivity() {
 
     }
 
-    private fun charData(name: String, difficulty: String, picURL: String): TaskagotchiData {
+
+    private fun charData(name: String, difficulty: String, picURL: String, creationDate: Date): TaskagotchiData {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, 21)
         var levelUpDate = calendar.time
@@ -85,7 +86,8 @@ class CharacterCreation : AppCompatActivity() {
             color = selectedColor,
             age = "baby",
             levelUpDate = levelUpDate,
-            charEvolution = mutableListOf()
+            charEvolution = mutableListOf(),
+            creationDate = creationDate
         )
         // Add picURL to the charEvolution list
         char.charEvolution?.add(picURL)
@@ -93,13 +95,19 @@ class CharacterCreation : AppCompatActivity() {
     }
     private fun createCharacter(username: String, userId: String, name: String, difficulty: String, picURL: String){
 
+        val date = Calendar.getInstance()
+        date.set(Calendar.HOUR_OF_DAY, 0)
+        date.set(Calendar.MINUTE, 0)
+        date.set(Calendar.SECOND, 0)
+        date.set(Calendar.MILLISECOND, 0)
+
         id = taskaCharacterReference.push().key
         taskaCharacterReference.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val taskagotchiData = charData(name, difficulty, picURL)
+                val taskagotchiData = charData(name, difficulty, picURL, date.time)
                 taskaCharacterReference.child(id!!).setValue(taskagotchiData)
                 Toast.makeText(this@CharacterCreation, "Character created successfully", Toast.LENGTH_SHORT).show()
-                addChartoList(userId)
+                addChartoList(userId, picURL)
                 val intent = Intent(this@CharacterCreation, TaskCreationActivity::class.java)
                 // Put the username and password into the Intent
                 intent.putExtra("username", username)
@@ -108,17 +116,14 @@ class CharacterCreation : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@CharacterCreation, "Database Error: ${error.message}", Toast.LENGTH_SHORT).show()
-
             }
         })
     }
 
-    private fun addChartoList(userId: String){
+    private fun addChartoList(userId: String, picURL: String){
         if (userId == null || id == null) {
-            // Handle error: userId or id is null
             return
         }
 
@@ -129,9 +134,12 @@ class CharacterCreation : AppCompatActivity() {
                 if (userData != null) {
 
                     val updatedList = userData.charactersIdList?.toMutableList() ?: mutableListOf()
+                    val unlockedCharList = userData.unlockedIDChar?.toMutableList()?: mutableListOf()
                     if (!updatedList.contains(id)) {
                         updatedList.add(id!!)
+                        unlockedCharList.add(picURL)
                         userData.charactersIdList = updatedList
+                        userData.unlockedIDChar = unlockedCharList
 
                         // Write updated UserData back to Firebase
                         usersReference.child(userId!!).setValue(userData)

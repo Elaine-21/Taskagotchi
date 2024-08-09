@@ -16,5 +16,7 @@ data class HomeData(
     var debuff: String? = null,
     var levelUpDate: Date? = null,
     var charEvolution: List<String>? = null,//var charEvolution: MutableList<String> = mutableListOf(),
-    var tasksIDList: List<String>? = null
+    var tasksIDList: List<String>? = null,
+    var energyRestorationDate: Date? = null,
+    var creationDate: Date? = null
 )
