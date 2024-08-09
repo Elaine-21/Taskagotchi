@@ -495,8 +495,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId/$characterId")
             taskagotchiData.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val creationDate =
-                        dataSnapshot.child("creationDate").getValue(Date::class.java)
+                    val creationDate = dataSnapshot.child("creationDate").getValue(Date::class.java)
                         if (creationDate != null) {
                             val currentDate = Calendar.getInstance().time
                             val diffInMillis = currentDate.time - creationDate.time
@@ -599,21 +598,21 @@ class CharacterDetailsActivity : AppCompatActivity() {
                 if (resId != 0) {
                     val drawable = resources.getDrawable(resId, null)
                     val bitmap = (drawable as BitmapDrawable).bitmap
+//
+//                    val sharePhoto = SharePhoto.Builder()
+//                        .setBitmap(bitmap)
+//                        .setCaption("Character Unlocked ${characterStreak} streak/s!")
+//                        .build()
 
-                    val sharePhoto = SharePhoto.Builder()
-                        .setBitmap(bitmap)
-                        .setCaption("Character Unlocked ${characterStreak} streak/s!")
-                        .build()
-
-                    val shareContent = SharePhotoContent.Builder()
-                        .addPhoto(sharePhoto)
-                        .setShareHashtag(ShareHashtag.Builder().setHashtag("#Taskagotchi\n#Streak${characterStreak}").build())
-                        .build()
-
-                    val shareDialog = ShareDialog(this)
-                    if (ShareDialog.canShow(SharePhotoContent::class.java)) {
-                        shareDialog.show(shareContent)
-                    }
+//                    val shareContent = SharePhotoContent.Builder()
+//                        .addPhoto(sharePhoto)
+//                        .setShareHashtag(ShareHashtag.Builder().setHashtag("#Taskagotchi\n#Streak${characterStreak}").build())
+//                        .build()
+////
+//                    val shareDialog = ShareDialog(this)
+//                    if (ShareDialog.canShow(SharePhotoContent::class.java)) {
+//                        shareDialog.show(shareContent)
+//                    }
                 } else {
                     showToast("Image not found")
                 }

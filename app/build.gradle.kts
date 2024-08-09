@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation("com.facebook.android:facebook-share:latest.release")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

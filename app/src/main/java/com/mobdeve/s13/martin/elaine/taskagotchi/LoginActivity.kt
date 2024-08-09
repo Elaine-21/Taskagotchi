@@ -1,16 +1,19 @@
 package com.mobdeve.s13.martin.elaine.taskagotchi
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log//remove later
+import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.facebook.FacebookSdk
@@ -22,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.mobdeve.s13.martin.elaine.taskagotchi.databinding.ActivityLoginBinding
 import com.mobdeve.s13.martin.elaine.taskagotchi.model.UserData
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
 
 class LoginActivity : ComponentActivity() {
 
@@ -33,9 +39,7 @@ class LoginActivity : ComponentActivity() {
         //Creating splash screen or loading screen
         Thread.sleep(3000)
         installSplashScreen()
-//
-//        FacebookSdk.sdkInitialize(applicationContext)
-//        AppEventsLogger.activateApp(applicationContext as Application)
+        printHashKey()
 
         val viewBinding: ActivityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
@@ -63,6 +67,21 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
+    fun printHashKey() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey: String = String(Base64.encode(md.digest(), 0))
+                Log.e("Facebook", "printHashKey() Hash Key: $hashKey")
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e("Facebook", "printHashKey()", e)
+        } catch (e: Exception) {
+            Log.e("Facebook", "printHashKey()", e)
+        }
+    }
     private fun loginUser(username: String, password: String){
         databaseReference.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
