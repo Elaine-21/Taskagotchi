@@ -102,7 +102,8 @@ class HomeActivity : AppCompatActivity() {
             finish()
         }
         viewBinding.encyclopediaBtn.setOnClickListener {
-            val intent = Intent(this@HomeActivity, CharacterCollection::class.java)
+            val intent = Intent(this@HomeActivity, CharacterEncyclopediaActivity::class.java)
+            intent.putExtra("userId", userId)
             startActivity(intent)
             onPause()
         }
