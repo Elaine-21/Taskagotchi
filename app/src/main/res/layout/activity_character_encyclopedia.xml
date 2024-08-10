@@ -5,8 +5,619 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_blue_egg"
+    android:background="@drawable/background_blue_egg">
     tools:context=".CharacterEncyclopediaActivity">
 
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:background="@drawable/oblong_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"/>
+
+    <FrameLayout
+        android:id="@+id/view5"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:background="@drawable/square_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_default="wrap">
+
+
+<!--        layout_height="wrap_content" or "1000dp"-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/baby_blue_female"
+                    android:tag="babyBlueFemale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:tint="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baby_blue_female" />
+
+                <ImageView
+                    android:id="@+id/baby_green_female"
+                    android:tag="babyGreenFemale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="9dp"
+                    app:layout_constraintEnd_toStartOf="@+id/baby_pink_female"
+                    app:layout_constraintStart_toEndOf="@+id/baby_blue_female"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baby_green_female" />
+
+                <ImageView
+                    android:id="@+id/baby_pink_female"
+                    android:tag="babyPinkFemale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baby_pink_female" />
+
+                <ImageView
+                    android:id="@+id/baby_blue_male"
+                    android:tag="babyBlueMale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_blue_female"
+                    app:srcCompat="@drawable/baby_blue_male" />
+
+                <ImageView
+                    android:id="@+id/baby_green_male"
+                    android:tag="babyGreenMale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    app:layout_constraintEnd_toStartOf="@+id/baby_pink_male"
+                    app:layout_constraintStart_toEndOf="@+id/baby_blue_male"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_green_female"
+                    app:srcCompat="@drawable/baby_green_male" />
+
+                <ImageView
+                    android:id="@+id/baby_pink_male"
+                    android:tag="babyPinkMale"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_pink_female"
+                    app:srcCompat="@drawable/baby_pink_male" />
+
+                <ImageView
+                    android:id="@+id/child_female_chiroritchi"
+                    android:tag="childFemaleChiroritchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_blue_male"
+                    app:srcCompat="@drawable/child_female_chiroritchi" />
+
+                <ImageView
+                    android:id="@+id/child_female_mimitamatchi"
+                    android:tag="childFemaleMimitamatchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    app:layout_constraintEnd_toStartOf="@+id/child_female_tantotchi"
+                    app:layout_constraintStart_toEndOf="@+id/child_female_chiroritchi"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_green_male"
+                    app:srcCompat="@drawable/child_female_mimitamatchi" />
+
+                <ImageView
+                    android:id="@+id/child_female_tantotchi"
+                    android:tag="childFemaleTantotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/baby_pink_male"
+                    app:srcCompat="@drawable/child_female_tantotchi" />
+
+                <ImageView
+                    android:id="@+id/child_male_fuyofuyotchi"
+                    android:tag="childMaleFuyofuyotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/child_female_chiroritchi"
+                    app:srcCompat="@drawable/child_male_fuyofuyotchi" />
+
+                <ImageView
+                    android:id="@+id/child_male_mokumokutchi"
+                    android:tag="childMaleMokumokutchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    app:layout_constraintEnd_toStartOf="@+id/child_male_puchitomatchi"
+                    app:layout_constraintStart_toEndOf="@+id/child_male_fuyofuyotchi"
+                    app:layout_constraintTop_toBottomOf="@+id/child_female_mimitamatchi"
+                    app:srcCompat="@drawable/child_male_mokumokutchi" />
+
+                <ImageView
+                    android:id="@+id/child_male_puchitomatchi"
+                    android:tag="childMalePuchitomatchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/child_female_tantotchi"
+                    app:srcCompat="@drawable/child_male_puchitomatchi" />
+
+                <ImageView
+                    android:id="@+id/teen_female_haretchi"
+                    android:tag="teenFemaleHaretchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/child_male_fuyofuyotchi"
+                    app:srcCompat="@drawable/teen_female_haretchi" />
+
+                <ImageView
+                    android:id="@+id/teen_female_soyofuwatchi"
+                    android:tag="teenFemaleSoyofuwatchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/teen_female_tororitchi"
+                    app:layout_constraintStart_toEndOf="@+id/teen_female_haretchi"
+                    app:layout_constraintTop_toBottomOf="@+id/child_male_mokumokutchi"
+                    app:srcCompat="@drawable/teen_female_soyofuwatchi" />
+
+                <ImageView
+                    android:id="@+id/teen_female_tororitchi"
+                    android:tag="teenFemaleTororitchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/child_male_puchitomatchi"
+                    app:srcCompat="@drawable/teen_female_tororitchi" />
+
+                <ImageView
+                    android:id="@+id/teen_male_kurupoyotchi"
+                    android:tag="teenMaleKurupoyotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_female_haretchi"
+                    app:srcCompat="@drawable/teen_male_kurupoyotchi" />
+
+                <ImageView
+                    android:id="@+id/teen_male_mokokotchi"
+                    android:tag="teenMaleMokokotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/teen_male_terukerotchi"
+                    app:layout_constraintStart_toEndOf="@+id/teen_male_kurupoyotchi"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_female_soyofuwatchi"
+                    app:srcCompat="@drawable/teen_male_mokokotchi" />
+
+                <ImageView
+                    android:id="@+id/teen_male_terukerotchi"
+                    android:tag="teenMaleTerukerotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_female_tororitchi"
+                    app:srcCompat="@drawable/teen_male_terukerotchi" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_female_awamokotchi"
+                    android:tag="adultBlueFemaleAwamokotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_male_kurupoyotchi"
+                    app:srcCompat="@drawable/adult_blue_female_awamokotchi" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_female_himetchi"
+                    android:tag="adultBlueFemaleHimetchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_blue_female_mimitchim"
+                    app:layout_constraintStart_toEndOf="@+id/adult_blue_female_awamokotchi"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_male_mokokotchi"
+                    app:srcCompat="@drawable/adult_blue_female_himetchi" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_female_mimitchim"
+                    android:tag="adultBlueFemaleMimitchim"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/teen_male_terukerotchi"
+                    app:srcCompat="@drawable/adult_blue_female_mimitchim" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_female_shinobinyatchimix"
+                    android:tag="adultBlueFemaleShinobinyatchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_female_awamokotchi"
+                    app:srcCompat="@drawable/adult_blue_female_shinobinyatchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_male_gozarutchi"
+                    android:tag="adultBlueMaleGozarutchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_blue_male_kikitchimix"
+                    app:layout_constraintStart_toEndOf="@+id/adult_blue_female_shinobinyatchimix"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_female_himetchi"
+                    app:srcCompat="@drawable/adult_blue_male_gozarutchi" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_male_kikitchimix"
+                    android:tag="adultBlueMaleKikitchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_female_mimitchim"
+                    app:srcCompat="@drawable/adult_blue_male_kikitchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_male_kuromametchi"
+                    android:tag="adultBlueMaleKuromametchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_female_shinobinyatchimix"
+                    app:srcCompat="@drawable/adult_blue_male_kuromametchi" />
+
+                <ImageView
+                    android:id="@+id/adult_blue_male_mametchimix"
+                    android:tag="adultBlueMaleMametchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_green_female_cofret"
+                    app:layout_constraintStart_toEndOf="@+id/adult_blue_male_kuromametchi"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_male_gozarutchi"
+                    app:srcCompat="@drawable/adult_blue_male_mametchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_green_female_cofret"
+                    android:tag="adultGreenFemaleCofret"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_male_kikitchimix"
+                    app:srcCompat="@drawable/adult_green_female_cofret" />
+
+                <ImageView
+                    android:id="@+id/adult_green_female_memetchimix"
+                    android:tag="adultGreenFemaleMemetchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_male_kuromametchi"
+                    app:srcCompat="@drawable/adult_green_female_memetchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_green_female_neliatchi"
+                    android:tag="adultGreenFemaleNeliatchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_green_female_violetchi"
+                    app:layout_constraintStart_toEndOf="@+id/adult_green_female_memetchimix"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_blue_male_mametchimix"
+                    app:srcCompat="@drawable/adult_green_female_neliatchi" />
+
+                <ImageView
+                    android:id="@+id/adult_green_female_violetchi"
+                    android:tag="adultGreenFemaleVioletchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_female_cofret"
+                    app:srcCompat="@drawable/adult_green_female_violetchi" />
+
+                <ImageView
+                    android:id="@+id/adult_green_male_murachakitchi"
+                    android:tag="adultGreenMaleMurachakitchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_female_memetchimix"
+                    app:srcCompat="@drawable/adult_green_male_murachakitchi" />
+
+                <ImageView
+                    android:id="@+id/adult_green_male_paintotchi"
+                    android:tag="adultGreenMalePaintotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_green_male_shimagurutchimix"
+                    app:layout_constraintStart_toEndOf="@+id/adult_green_male_murachakitchi"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_female_neliatchi"
+                    app:srcCompat="@drawable/adult_green_male_paintotchi" />
+
+                <ImageView
+                    android:id="@+id/adult_green_male_shimagurutchimix"
+                    android:tag="adultGreenMaleShimagurutchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_female_violetchi"
+                    app:srcCompat="@drawable/adult_green_male_shimagurutchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_green_male_weeptchi"
+                    android:tag="adultGreenMaleWeeptchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_male_murachakitchi"
+                    app:srcCompat="@drawable/adult_green_male_weeptchi" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_female_chamametchi"
+                    android:tag="adultPinkFemaleChamametchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_pink_female_lovelitchimix"
+                    app:layout_constraintStart_toEndOf="@+id/adult_green_male_weeptchi"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_male_paintotchi"
+                    app:srcCompat="@drawable/adult_pink_female_chamametchi" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_female_lovelitchimix"
+                    android:tag="adultPinkFemaleLovelitchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_male_shimagurutchimix"
+                    app:srcCompat="@drawable/adult_pink_female_lovelitchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_female_momotchimix"
+                    android:tag="adultPinkFemaleMomotchimix"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_green_male_weeptchi"
+                    app:srcCompat="@drawable/adult_pink_female_momotchimix" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_female_sebiretchi"
+                    android:tag="adultPinkFemaleSebiretchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_pink_male_charatchi"
+                    app:layout_constraintStart_toEndOf="@+id/adult_pink_female_momotchimix"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_pink_female_chamametchi"
+                    app:srcCompat="@drawable/adult_pink_female_sebiretchi" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_male_charatchi"
+                    android:tag="adultPinkMaleCharatchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_pink_female_lovelitchimix"
+                    app:srcCompat="@drawable/adult_pink_male_charatchi" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_male_ginjirotchi"
+                    android:tag="adultPinkMaleGinjirotchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_pink_female_momotchimix"
+                    app:srcCompat="@drawable/adult_pink_male_ginjirotchi" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_male_kuchipatchim"
+                    android:tag="adultPinkMaleKuchipatchim"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@+id/adult_pink_male_orenetchi"
+                    app:layout_constraintStart_toEndOf="@+id/adult_pink_male_ginjirotchi"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_pink_female_sebiretchi"
+                    app:srcCompat="@drawable/adult_pink_male_kuchipatchim" />
+
+                <ImageView
+                    android:id="@+id/adult_pink_male_orenetchi"
+                    android:tag="adultPinkMaleOrenetchi"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:tint="@color/black"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adult_pink_male_charatchi"
+                    app:srcCompat="@drawable/adult_pink_male_orenetchi" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </FrameLayout>
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/view5"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="@+id/view5"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <ImageView
+        android:id="@+id/encyclopedia_back_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view4"
+        app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/left_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
