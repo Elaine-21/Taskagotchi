@@ -50,6 +50,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private var characterStreak: Int? = null
     private var characterStatus: String? = null
     private var characterPicURL: String? = null
+    private var characterName: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         userId = this.intent.getStringExtra("userId")
         characterId = this.intent.getStringExtra("characterId")
-        val characterName = this.intent.getStringExtra("characterName")
+        characterName = this.intent.getStringExtra("characterName")
         characterPicURL = this.intent.getStringExtra("characterPicURL")
         characterStatus = this.intent.getStringExtra("characterStatus")
         characterStreak = this.intent.getIntExtra("characterStreak", 0)
@@ -81,6 +82,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         Log.d("CharacterDetailsActivity", "Received character IDs: $charIds")
 
         checkStreak()
+
+        checkForEvolution()
 
         viewBinding.taskagotchiNameCD.text = characterName ?: "No name available"
         viewBinding.taskagotchiHealthCD.text = characterStatus ?: "No status available"
@@ -147,7 +150,16 @@ class CharacterDetailsActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         characterEnergy = snapshot.child("energy").getValue(Int::class.java) ?: 0
+                        val picUrl = snapshot.child("picURL").getValue(String::class.java)
                         viewBinding.taskagotchiEnergyCD.text = characterEnergy.toString()
+                        picUrl?.let {
+                            val resId = resources.getIdentifier(it, "drawable", packageName)
+                            if (resId != 0) {
+                                viewBinding.taskagotchiPictureCD.setImageResource(resId)
+                            } else {
+                                showToast("Image not found")
+                            }
+                        }
                     }
                 }
 
@@ -495,7 +507,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
             val taskagotchiData: DatabaseReference = firebaseDatabase.reference.child("taskagotchiCharacter/$userId/$characterId")
             taskagotchiData.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val creationDate = dataSnapshot.child("creationDate").getValue(Date::class.java)
+                    val creationDate =
+                        dataSnapshot.child("creationDate").getValue(Date::class.java)
                         if (creationDate != null) {
                             val currentDate = Calendar.getInstance().time
                             val diffInMillis = currentDate.time - creationDate.time
@@ -621,5 +634,47 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         dialog.show()
 
+    }
+
+    private fun checkForEvolution() {
+        val taskagotchiDataReference: DatabaseReference =
+            firebaseDatabase.reference.child("taskagotchiCharacter/$userId/$characterId")
+
+        val dateToday = Calendar.getInstance()
+        dateToday.set(Calendar.HOUR_OF_DAY, 0)
+        dateToday.set(Calendar.MINUTE, 0)
+        dateToday.set(Calendar.SECOND, 0)
+        dateToday.set(Calendar.MILLISECOND, 0)
+
+        taskagotchiDataReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val levelUpDate = dataSnapshot.child("levelUpDate").getValue(Date::class.java)
+                val age = dataSnapshot.child("age").getValue(String::class.java)
+                if(age == "adult"){
+                    return
+                }
+
+                Log.d("Check Evolution", "levelUpDate: ${levelUpDate}")
+                Log.d("Check Evolution", "dateToday: ${dateToday.time}")
+
+                if (levelUpDate!!.before(dateToday.time) || levelUpDate!!.equals(dateToday.time)) {
+
+                    Log.d("Check Evolution", "Checking for char Evolution")
+
+                    var intent = Intent(this@CharacterDetailsActivity, CharacterEvolutionActivity::class.java)
+                    intent.putExtra("userID", userId)
+                    intent.putExtra("characterID", characterId)
+                    intent.putExtra("characterStreak", characterStreak ?: 0)
+                    intent.putExtra("charPicURL", characterPicURL)
+                    intent.putExtra("characterName", characterName)
+                    startActivity(intent)
+                    onPause()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                showToast("Database Error: ${error.message}")
+            }
+        })
     }
 }
