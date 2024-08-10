@@ -134,6 +134,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getCharacterId()
+        homeAdapter.notifyDataSetChanged()//changes here
     }
 
     private fun updateEnergy(charID: String?, charData: HomeData){
