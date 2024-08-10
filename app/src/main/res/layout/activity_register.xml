@@ -87,7 +87,7 @@
         android:gravity="center_horizontal"
         android:inputType="text"
         android:padding="3dp"
-        android:text="Enter Username"
+        android:hint="Enter Username"
         android:textColor="#000000"
         android:textSize="12sp" />
 
@@ -115,7 +115,6 @@
         android:gravity="center_horizontal"
         android:inputType="textPassword"
         android:padding="3dp"
-        android:text="Enter Password"
         android:textColor="#000000"
         android:textSize="12sp" />
 
@@ -143,7 +142,6 @@
         android:gravity="center_horizontal"
         android:inputType="textPassword"
         android:padding="3dp"
-        android:text="Enter Password"
         android:textColor="#000000"
         android:textSize="12sp" />
 
