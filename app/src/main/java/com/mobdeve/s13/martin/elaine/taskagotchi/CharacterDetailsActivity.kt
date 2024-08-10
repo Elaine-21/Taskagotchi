@@ -51,7 +51,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     private var characterStatus: String? = null
     private var characterPicURL: String? = null
     private var characterName: String? = null
-
+    private var isAdult: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -100,6 +100,22 @@ class CharacterDetailsActivity : AppCompatActivity() {
             }
         }
 
+        //character evolution button
+        viewBinding.characterEvolutionBtn.setOnClickListener {
+            Log.d("CharacterDetailsActivity", "charEvolutionBtn clicked")
+            val intent = Intent(
+                this@CharacterDetailsActivity,
+                CharacterEvolutionHistoryActivity::class.java
+            )
+
+            intent.putStringArrayListExtra("charIds", charIds)
+            startActivity(intent)
+            onPause()
+        }
+
+        viewBinding.returnBtn.setOnClickListener {
+            finish()
+        }
         if(characterStatus != "Debuffed") {
             //aditional task button
             viewBinding.additionalTaskBtn.setOnClickListener {
@@ -113,22 +129,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
                 onPause()
             }
 
-            //character evolution button
-            viewBinding.characterEvolutionBtn.setOnClickListener {
-                Log.d("CharacterDetailsActivity", "charEvolutionBtn clicked")
-                val intent = Intent(
-                    this@CharacterDetailsActivity,
-                    CharacterEvolutionHistoryActivity::class.java
-                )
 
-                intent.putStringArrayListExtra("charIds", charIds)
-                startActivity(intent)
-                onPause()
-            }
-
-            viewBinding.returnBtn.setOnClickListener {
-                finish()
-            }
 
             if (taskIds.isNotEmpty()) {
                 // Proceed to fetch and display tasks
@@ -642,7 +643,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun checkForEvolution() {
+    private fun checkForEvolution(){
         val taskagotchiDataReference: DatabaseReference =
             firebaseDatabase.reference.child("taskagotchiCharacter/$userId/$characterId")
 
