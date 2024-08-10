@@ -89,39 +89,45 @@ class CharacterDetailsActivity : AppCompatActivity() {
             }
         }
 
-        //aditional task button
-        viewBinding.additionalTaskBtn.setOnClickListener {val intent = Intent(this@CharacterDetailsActivity, AdditionalTaskActivity::class.java)
-            intent.putExtra("characterId", characterId)
-            intent.putExtra("taskIdsSize", taskIds.size)
-            intent.putExtra("energy", characterEnergy)
-            intent.putExtra("userId", userId)
-            startActivity(intent)
-            onPause()
+        if(characterStatus != "Debuffed") {
+            //aditional task button
+            viewBinding.additionalTaskBtn.setOnClickListener {
+                val intent =
+                    Intent(this@CharacterDetailsActivity, AdditionalTaskActivity::class.java)
+                intent.putExtra("characterId", characterId)
+                intent.putExtra("taskIdsSize", taskIds.size)
+                intent.putExtra("energy", characterEnergy)
+                intent.putExtra("userId", userId)
+                startActivity(intent)
+                onPause()
+            }
+
+            //character evolution button
+            viewBinding.characterEvolutionBtn.setOnClickListener {
+                Log.d("CharacterDetailsActivity", "charEvolutionBtn clicked")
+                val intent = Intent(
+                    this@CharacterDetailsActivity,
+                    CharacterEvolutionHistoryActivity::class.java
+                )
+
+                intent.putStringArrayListExtra("charIds", charIds)
+                startActivity(intent)
+                onPause()
+            }
+
+            viewBinding.returnBtn.setOnClickListener {
+                finish()
+            }
+
+            if (taskIds.isNotEmpty()) {
+                // Proceed to fetch and display tasks
+                readTasksData(characterId, userId)
+            } else {
+                // Handle the case where there are no task IDs
+                Log.d("CharacterDetailsActivity", "No task IDs to fetch.")
+                showToast("No tasks available for this character.")
+            }
         }
-
-        //character evolution button
-        viewBinding.characterEvolutionBtn.setOnClickListener {
-            Log.d( "CharacterDetailsActivity", "charEvolutionBtn clicked")
-            val intent = Intent(this@CharacterDetailsActivity, CharacterEvolutionHistoryActivity::class.java)
-
-            intent.putStringArrayListExtra("charIds", charIds)
-            startActivity(intent)
-            onPause()
-        }
-
-        viewBinding.returnBtn.setOnClickListener{
-            finish()
-        }
-
-        if (taskIds.isNotEmpty()) {
-            // Proceed to fetch and display tasks
-            readTasksData(characterId, userId)
-        } else {
-            // Handle the case where there are no task IDs
-            Log.d("CharacterDetailsActivity", "No task IDs to fetch.")
-            showToast("No tasks available for this character.")
-        }
-
 
     }
     override fun onResume() {
