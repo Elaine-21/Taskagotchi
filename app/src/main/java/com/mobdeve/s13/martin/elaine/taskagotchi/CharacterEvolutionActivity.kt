@@ -394,6 +394,7 @@ class CharacterEvolutionActivity : AppCompatActivity() {
             viewBinding.char3Imv.setImageResource(R.drawable.child_female_mimitamatchi)
             getCharName("child_female_mimitamatchi", viewBinding.char3Tv)
 
+            viewBinding.char4Tv.visibility = View.INVISIBLE
             viewBinding.char4Imv.visibility = View.INVISIBLE
 
             setClickListener(viewBinding.char1Imv, "child_female_tantotchi")
@@ -410,6 +411,7 @@ class CharacterEvolutionActivity : AppCompatActivity() {
             viewBinding.char3Imv.setImageResource(R.drawable.teen_female_soyofuwatchi)
             getCharName("teen_female_soyofuwatchi", viewBinding.char3Tv)
 
+            viewBinding.char4Tv.visibility = View.INVISIBLE
             viewBinding.char4Imv.visibility = View.INVISIBLE
 
             setClickListener(viewBinding.char1Imv, "teen_female_haretchi")
@@ -483,6 +485,7 @@ class CharacterEvolutionActivity : AppCompatActivity() {
             viewBinding.char3Imv.setImageResource(R.drawable.child_male_puchitomatchi)
             getCharName("child_male_puchitomatchi", viewBinding.char3Tv)
 
+            viewBinding.char4Tv.visibility = View.INVISIBLE
             viewBinding.char4Imv.visibility = View.INVISIBLE
 
             setClickListener(viewBinding.char1Imv, "child_male_fuyofuyotchi")
@@ -499,6 +502,7 @@ class CharacterEvolutionActivity : AppCompatActivity() {
             viewBinding.char3Imv.setImageResource(R.drawable.teen_male_terukerotchi)
             getCharName("teen_male_terukerotchi", viewBinding.char3Tv)
 
+            viewBinding.char4Tv.visibility = View.INVISIBLE
             viewBinding.char4Imv.visibility = View.INVISIBLE
 
             setClickListener(viewBinding.char1Imv, "teen_male_mokokotchi")
